@@ -14,6 +14,3 @@ jobs:
       - 
         name: Run the Docker image
         run: cd docker; docker-compose up -d
-      - 
-        name: Test
-        run: docker run --network container:app --rm appropriate/curl:latest -s http://localhost:4000/
