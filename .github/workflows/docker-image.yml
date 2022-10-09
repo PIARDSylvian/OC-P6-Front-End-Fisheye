@@ -14,3 +14,6 @@ jobs:
       - 
         name: Run the Docker image
         run: cd docker; docker-compose up -d
+      - 
+        name: Test
+        run: docker run --network container:app appropriate/curl -s --retry 10 --retry-connrefused http://localhost:4000/
