@@ -6,4 +6,4 @@ docker-compose build
 docker-compose up (with -d for deamon)
 
 ## How to use npm
-docker run -ti app /bin/bash
+docker exec -it app /bin/bash

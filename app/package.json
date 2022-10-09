@@ -4,11 +4,13 @@
   "description": "web site for independent photographer",
   "main": "index.js",
   "scripts": {
-    "dev": "http-server"
+    "dev": "http-server",
+    "lint": "eslint scripts/**/*.js"
   },
   "author": "Piard Sylvian",
   "license": "ISC",
   "dependencies": {
+    "eslint": "^8.25.0",
     "http-server": "^14.1.0"
   }
 }
