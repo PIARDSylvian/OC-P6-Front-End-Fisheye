@@ -10,4 +10,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run the Docker image
-        run: cd docker;docker-compose -f up -d --build
+        run: cd docker; docker-compose up -d --build
