@@ -7,3 +7,8 @@ docker-compose up (with -d for deamon)
 
 ## How to use npm
 docker exec -it app /bin/bash
+
+## How to use linter
+in docker npm (docker exec...)
+
+npm run lint
