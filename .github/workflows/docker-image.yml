@@ -8,9 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - 
-        name: Build the Docker image
-        uses: actions/checkout@v3
-      - 
-        name: Run the Docker image
-        run: cd docker; docker-compose up -d
+      - uses: actions/checkout@v3
+      - name: Run the Docker image
+        run: cd docker; docker-compose -f "docker-compose.yml" up -d --build; cd..
