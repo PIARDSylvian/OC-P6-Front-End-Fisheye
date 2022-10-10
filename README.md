@@ -1,6 +1,7 @@
 # Base de code du projet P6 - Parcours Front-end
 
 ## How to run project
+In docker folder
 
 docker-compose build 
 docker-compose up (with -d for deamon)
