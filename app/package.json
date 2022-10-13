@@ -4,7 +4,7 @@
   "description": "web site for independent photographer",
   "main": "index.js",
   "scripts": {
-    "dev": "http-server & sass --watch sass/main.scss css/style.css",
+    "dev": "http-server ./ & grunt watch --force",
     "lint": "eslint scripts/**/*.js"
   },
   "author": "Piard Sylvian",
@@ -13,5 +13,12 @@
     "eslint": "^8.25.0",
     "http-server": "^14.1.0",
     "sass": "^1.55.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.5.3",
+    "grunt-cli": "^1.4.3",
+    "grunt-contrib-sass": "^2.0.0",
+    "grunt-contrib-uglify": "^5.2.2",
+    "grunt-contrib-watch": "^1.1.0"
   }
 }
