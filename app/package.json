@@ -4,7 +4,7 @@
   "description": "web site for independent photographer",
   "main": "index.js",
   "scripts": {
-    "dev": "http-server ./ & grunt watch --force",
+    "dev": "http-server ./ & grunt & grunt watch --force",
     "lint": "eslint scripts/**/*.js"
   },
   "author": "Piard Sylvian",

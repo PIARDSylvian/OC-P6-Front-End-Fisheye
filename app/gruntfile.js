@@ -10,7 +10,6 @@ module.exports = function (grunt) {
                 src: 'scripts/**/*.js',  // source files mask
                 dest: 'public/',    // destination folder
                 expand: true,    // allow dynamic building
-                flatten: true,   // remove all unnecessary nesting
                 ext: '.min.js'   // replace .js to .min.js
             }
         },
