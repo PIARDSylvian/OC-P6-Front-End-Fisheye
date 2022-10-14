@@ -18,7 +18,7 @@ function photographerFactory(data) {
 
 function photographerFactoryExtend(data) {
     const proto = photographerFactory(data)
-    const { name, portrait, city, country, tagline, price } = data;
+    const { name, portrait, city, country, tagline, price, id } = data;
     const picture = `assets/photographers/Photographers ID Photos/${portrait}`;
 
     function getUserCardDOM() {
@@ -30,6 +30,10 @@ function photographerFactoryExtend(data) {
         img.classList.add('photographer__picture');
         const h2 = article.querySelector( 'h2' );
         h2.classList.add('photographer__title');
+        const link = document.createElement('a');
+        link.setAttribute("href", `/photographer#${id}`);
+        link.appendChild(img);
+        link.appendChild(h2);
         const location = document.createElement('p');
         location.textContent = `${city}, ${country}`;
         location.classList.add('photographer__location');
@@ -39,6 +43,7 @@ function photographerFactoryExtend(data) {
         const pricePerDay = document.createElement('p');
         pricePerDay.textContent = `${price}€/jour`;
         pricePerDay.classList.add('photographer__price');
+        article.appendChild(link);
         article.appendChild(location);
         article.appendChild(tag);
         article.appendChild(pricePerDay);
