@@ -1,4 +1,6 @@
-@import "Base/base";
-@import "Composants/header";
-@import "Pages/home";
-@import "Pages/photographer";
+@import "utils/variables";
+@import "utils/mixins";
+@import "base/base";
+@import "components/header";
+@import "pages/home";
+@import "pages/photographer";

@@ -11,6 +11,10 @@ header {
     }
 
     h1 {
-        color: #901C1C;
+        color: $font-secondary;
+    }
+
+    @include mobile {
+        padding: 0 20px;
     }
 }
