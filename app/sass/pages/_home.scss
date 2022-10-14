@@ -11,6 +11,11 @@
         align-items: center;
         flex-direction: column;
 
+        &>a {
+            text-decoration: none;
+            text-align: center;
+        }
+
         &__picture {
             height: 250px;
             width: 250px;
