@@ -12,6 +12,7 @@
   "dependencies": {
     "eslint": "^8.25.0",
     "http-server": "^14.1.0",
+    "normalize.css": "^8.0.1",
     "sass": "^1.55.0"
   },
   "devDependencies": {
