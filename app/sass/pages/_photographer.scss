@@ -2,30 +2,57 @@
     display: none;
 }
 
-.photograph__header {
-    background-color: $background-ternary;
-    margin: 0 100px;
-    display: flex;
-    height: auto;
-    padding: 60px 50px;
+.photographer {
+    &__header {
+        background-color: $background-ternary;
+        margin: 0 100px;
+        display: flex;
+        height: auto;
+        padding: 60px 50px;
 
-    .photographer {
-        &__title {
-            text-align: left;
-            margin: 0;
-            font-size: 50px;
-        }
-
-        &__tagline {
-            font-weight: 100;
-            color: $font-ternary;
-        }
-
-        &__location, &__tagline , &__price {
-            margin: 1em 0;
+        .photographer {
+            &__title {
+                text-align: left;
+                margin: 0;
+                font-size: 50px;
+            }
+    
+            &__tagline {
+                font-weight: 100;
+                color: $font-ternary;
+            }
+    
+            &__location, &__tagline , &__price {
+                margin: 1em 0;
+            }
         }
     }
 
+    &__section {
+        margin: 0 100px;
+
+        nav {
+            display: flex;
+            
+            &>p {
+                margin-right: 1em;
+                font-weight: bold;
+            }
+
+            select {
+                background-color: $font-secondary;
+                color: $background-ternary;
+                border-radius: .5em;
+                border: none;
+                border-right: 0.4em #901c1c solid;
+                padding: .5em 1.0em 0.5em 0.5em;
+
+                &:focus-visible {
+                    outline: 0;
+                }
+            }
+        }
+    }
 }
 
 .contact_button {

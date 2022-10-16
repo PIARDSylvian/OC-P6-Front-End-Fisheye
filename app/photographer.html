@@ -11,9 +11,19 @@
 			<a href="../"><img src="assets/images/logo.png" class="logo" alt="logo"></a>
 		</header>
 		<main id="main">
-			<header class="photograph__header">
+			<header class="photographer__header">
 				<button class="contact_button" onclick="displayModal()">Contactez-moi</button>
 			</header>
+			<section class="photographer__section">
+				<nav>
+					<p>Trier par</p>
+					<select name="sort_by" id="sort_by">
+						<option value="popularity">Popularité</option>
+						<option value="date">Date</option>
+						<option value="title">Titre</option>
+					</select> 
+				</nav>	
+			</section>
 		</main>
 		<div id="contact_modal">
 			<div class="modal">

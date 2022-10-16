@@ -26,7 +26,7 @@ async function getPhotographer(id) {
 }
 
 async function displayData(photographer) {
-    const header = document.querySelector(".photograph__header");
+    const header = document.querySelector(".photographer__header");
     const photographerModel = photographerFactory(photographer, photographer.id);
     const userPageDOM = photographerModel.getUserPageDOM();
 
