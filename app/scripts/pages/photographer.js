@@ -26,17 +26,15 @@ async function getPhotographer(id) {
 }
 
 async function displayData(photographer) {
-    // const photographersSection = document.querySelector(".photographer_section");
+    const header = document.querySelector(".photograph__header");
+    const photographerModel = photographerFactory(photographer, photographer.id);
+    const userPageDOM = photographerModel.getUserPageDOM();
 
-    // photographer.forEach((photographer) => {
-    //     const photographerModel = photographerFactoryExtend(photographer);
-    //     const userCardDOM = photographerModel.getUserCardDOM();
-    //     photographersSection.appendChild(userCardDOM);
-    // });
+    header.prepend(userPageDOM.info);
+    header.append(userPageDOM.image);
 };
 
 async function init() {
-   // Récupère les datas des photographes
     const data = await getPhotographer(getUrlParmeterId());
     displayData(data);
 };
