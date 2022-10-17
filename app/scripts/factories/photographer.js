@@ -4,6 +4,6 @@ function photographerFactory(data, id) {
     } else if(Number.isInteger(id))  {
         return new PhotographerModelPage(data);
     } else {
-        throw  'Unknown id format'
+        throw 'Unknown id format'
     }
 }

@@ -1,24 +1,39 @@
-class PhotographerTemplatePage {
+class PhotographerTemplatePage extends AbstractTemplatePhotographer {
     constructor(data) {
-        this._photographer = data;
+        super(data)
+        this._id = data._id;
+        this._city = data._city;
+        this._country = data._country;
+        this._tagline = data._tagline;
+        this._price = data._price;
     }
 
     getRender() {
-        const image = document.createElement('img');
-        image.classList.add('photographer__picture');
-        image.setAttribute("src", this._photographer._picture);
-        image.setAttribute("alt", this._photographer._name);
+        const article = super.getRender();
+
+        let image = article.querySelector('img');
+        image.setAttribute('alt', this._name);
+        image.classList.add('photographer__picture')
 
         const info = document.createElement('div');
-        info.innerHTML = `
-            <h2 class="photographer__title">${this._photographer._name}</h2>
-            <p class="photographer__location">${this._photographer._city}, ${this._photographer._country}</p>
-            <p class="photographer__tagline">${this._photographer._tagline}</p>
-        `;
 
-        const price = document.createElement('div');
+        let title = article.querySelector('h2');
+        title.classList.add('photographer__title');
+        info.appendChild(title);
+
+        const location = document.createElement('p');
+        location.textContent = `${this._city}, ${this._country}`;
+        location.classList.add('photographer__location');
+        info.appendChild(location);
+
+        const tagline = document.createElement('p');
+        tagline.textContent = this._tagline;
+        tagline.classList.add('photographer__tagline');
+        info.appendChild(tagline);
+
+        const price = document.createElement('p');
+        price.textContent = this._price + "€/jour";
         price.classList.add('photographer__price');
-        price.textContent = `${this._photographer._price}€/jour`;
 
         return {image, info, price};
     }

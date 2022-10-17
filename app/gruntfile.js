@@ -1,16 +1,25 @@
 module.exports = function (grunt) {
     grunt.initConfig({
-
-        // define source files and their destinations
         uglify: {
-            options: {
-                mangle: true
-            },
-            files: { 
-                src: 'scripts/**/*.js',  // source files mask
-                dest: 'public/',    // destination folder
-                expand: true,    // allow dynamic building
-                ext: '.min.js'   // replace .js to .min.js
+            my_target: {
+                files: {
+                    'public/scripts/base.min.js': [
+                        'scripts/models/abstractModelPhotographer.js',
+                        'scripts/templates/abstractTemplatePhotographer.js',
+                        'scripts/factories/photographer.js',
+                        'scripts/utils/getPhotographers.js'
+                    ],
+                    'public/scripts/home.min.js': [
+                        'scripts/models/photographerModelCard.js',
+                        'scripts/templates/photographerTemplateCard.js',
+                        'scripts/pages/home.js'
+                    ],
+                    'public/scripts/photographer.min.js': [
+                        'scripts/models/photographerModelPage.js',
+                        'scripts/templates/photographerTemplatePage.js',
+                        'scripts/pages/photographer.js'
+                    ]
+                }
             }
         },
         sass: {
