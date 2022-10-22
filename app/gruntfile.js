@@ -16,7 +16,14 @@ module.exports = function (grunt) {
                     ],
                     'public/scripts/photographer.min.js': [
                         'scripts/models/photographerModelPage.js',
+                        'scripts/models/abstractModelMedia.js',
+                        'scripts/models/photographerImageCard.js',
+                        'scripts/models/photographerVideoCard.js',
                         'scripts/templates/photographerTemplatePage.js',
+                        'scripts/templates/abstractTemplateMedia.js',
+                        'scripts/templates/photographerTemplateImage.js',
+                        'scripts/templates/photographerTemplateVideo.js',
+                        'scripts/factories/media.js',
                         'scripts/pages/photographer.js'
                     ]
                 }

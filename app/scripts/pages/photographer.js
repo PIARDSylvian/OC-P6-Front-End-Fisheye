@@ -33,10 +33,18 @@ async function displayData(photographer) {
     header.prepend(userPageDOM.info);
     header.append(userPageDOM.image);
 
-    console.log(photographer.media); // call factory media
+    AddMedia(photographer.media, photographer.name);
 
     console.log(userPageDOM.price); // append Price & likes
 };
+
+function AddMedia(medias, name) {
+    const wrapper = document.querySelector(".photographer__section__media-wrapper");
+    medias.forEach((media) => {
+        const result = mediaFactory(media, name);
+        wrapper.appendChild(result.getMediaCardDOM());
+    });
+}
 
 function CustomSelect(id, name, data) {
     this._data = data;

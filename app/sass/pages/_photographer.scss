@@ -147,79 +147,60 @@
     &__section {
         margin: 0 100px;
 
+        &__media-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 70px;
+            margin-top: 100px;
+
+            @include tab {
+                grid-template-columns: 1fr 1fr;
+            }
+        
+            @include mobile {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        figure {
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            figcaption {
+                font-weight: bold;
+                color: $font-secondary;
+                margin-top: 1em;
+            }
+
+            img, video {
+                width: 100%;
+                object-fit: cover;
+                height: 300px;
+            }
+        }
+
+        .like_count {
+            font-weight: bold;
+            height: 1.5em;
+            width: auto;
+            color: $font-secondary;
+            display: flex;
+            align-items: center;
+            margin-top: 1em;
+
+            img {
+                height: 1em;
+                width: auto;
+                margin-left: .5em;
+                filter: hue-rotate(49deg);
+            }
+        }
+
         nav {
             display: flex;
             margin-top: .5em;
-            
-            &>label {
-                margin-right: 1em;
-                font-weight: bold;
-                line-height: 3em;
-            }
-
-            select {
-                display: none;
-            }
-
-            .option-custom {
-                background-color: $font-secondary;
-                color: $background-ternary;
-                border-radius: .5em;
-                width: 8em;
-                height: 3em;
-                transition: height .3s ease-in;
-
-                &.active {
-                    height: 9.4em;
-
-                    div {
-                        display: flex;
-
-                        &:first-child::after {
-                            transform: rotate(-90deg);
-                        }
-                    }   
-                }
-
-                &:not(.active) div:not(:first-child) {
-                    display: none;
-                }
-
-                div {
-                    display: flex;
-                    height: 3em;
-                    align-items: center;
-                    padding: .5em;
-                    justify-content: space-between;
-                    position: relative;
-                    border-top: .2em solid transparent;
-                    border-bottom: .2em solid transparent;
-
-                    &:first-child::after {
-                        content:">";
-                        transform: rotate(90deg);
-                        line-height: 0;
-                        font-size: 1.5em;
-                        position: relative;
-                        left: -.1em;
-                        transition: transform .3s ease-in;
-                    }
-
-                    &:nth-child(2) {
-                        margin: .2em 0;
-                        
-                        &::after {
-                            content:"";
-                            width: calc(100% - 1em);
-                            height: 100%;
-                            position: absolute;
-                            border-top: .2em solid white;
-                            border-bottom: .2em solid white;
-                        }
-                    }
-
-                }
-            }
         }
     }
 }
