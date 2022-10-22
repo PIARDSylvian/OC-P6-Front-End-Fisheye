@@ -6,7 +6,7 @@ class PhotographerModelPage extends AbstractModelPhotographer {
         this._city = data.city;
         this._country = data.country;
         this._tagline = data.tagline;
-        this._price = data.price; 
+        this._price = data.price;
     }
 
     getUserPageDOM() {

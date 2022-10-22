@@ -10,7 +10,7 @@ class AbstractTemplatePhotographer {
     getRender() {
         const article = document.createElement('article');
         const img = document.createElement('img');
-        img.setAttribute("src", this._picture)
+        img.setAttribute("src", this._picture);
         const h2 = document.createElement('h2');
         h2.textContent = this._name;
         article.appendChild(img);
