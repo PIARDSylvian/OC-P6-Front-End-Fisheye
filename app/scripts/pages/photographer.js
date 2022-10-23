@@ -33,11 +33,24 @@ async function displayData(photographer) {
     header.prepend(userPageDOM.info);
     header.append(userPageDOM.image);
 
-    AddMedia(photographer.media, photographer.name);
+    
     let likes = 0;
     photographer.media.forEach((media) => likes += media.likes);
 
     AddTotalLikeAndPrice(likes, userPageDOM.price);
+
+    const test = document.createElement('div');
+    test.innerHTML = "test modal";
+
+    function aa(event) {
+        console.log(event);
+        const test = event.composedPath().find(element => element.tagName === "FIGURE");
+
+        return test;
+    }
+
+    const openModal = addModal(test, (event)=>{console.log('open :', (aa(event)))}, (event)=>{console.log('close :', event)});
+    AddMedia(photographer.media, photographer.name, openModal);
 };
 
 function sortMedia(medias, value) {
@@ -61,13 +74,15 @@ function sortMedia(medias, value) {
     return medias;
 }
 
-function AddMedia(medias, name) {
+function AddMedia(medias, name, openModal) {
     const wrapper = document.querySelector(".photographer__section__media-wrapper");
     medias = sortMedia(medias);
     wrapper.dataset.sort = "0";
     medias.forEach((media) => {
         const result = mediaFactory(media, name);
-        wrapper.appendChild(result.getMediaCardDOM());
+        const element = result.getMediaCardDOM();
+        element.addEventListener('click', (event) => openModal(event));
+        wrapper.appendChild(element);
     });
 
     const select = document.querySelector("#listbox_sort_by");
@@ -80,7 +95,9 @@ function AddMedia(medias, name) {
             const sort = sortMedia(medias, value);
             sort.forEach((media) => {
                 const result = mediaFactory(media, name);
-                wrapper.appendChild(result.getMediaCardDOM());
+                const element = result.getMediaCardDOM();
+                element.addEventListener('click', (event) => openModal(event));
+                wrapper.appendChild(element);
             });
         }
     });
@@ -104,6 +121,45 @@ function AddTotalLikeAndPrice(likes, price) {
     div.appendChild(price);
 
     document.querySelector("main").append(div);
+}
+
+function addModal(content, callBackOpen = ()=>{}, callBackClose = ()=>{}) {
+    const main = document.querySelector('main');
+    const modal = document.createElement('div');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-hidden', true);
+    modal.classList.add('modal');
+
+    const img = document.createElement('img');
+    img.setAttribute('src', 'assets/icons/close.svg');
+    img.setAttribute('alt', 'close');
+    modal.appendChild(img);
+    modal.appendChild(content);
+
+    document.body.addEventListener("click", () => {
+        if(document.querySelector(".modal.open[aria-hidden='false']")) img.click();
+    });
+      
+    modal.addEventListener("click", (event) => event.stopPropagation());
+
+    img.addEventListener('click', (event) => {
+        callBackClose(event);
+        main.setAttribute('aria-hidden', false);
+        modal.setAttribute('aria-hidden', true);
+        modal.classList.remove('open');
+    });
+
+    const openModal = (e) => {
+        if(document.querySelector(".modal.open[aria-hidden='false']")) return;
+        callBackOpen(e);
+        main.setAttribute('aria-hidden', true);
+        modal.setAttribute('aria-hidden', false);
+        setTimeout(() => modal.classList.add('open'), 10);
+    }
+
+    document.body.appendChild(modal);
+
+    return openModal;
 }
 
 function CustomSelect(id, name, data) {

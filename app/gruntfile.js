@@ -24,7 +24,8 @@ module.exports = function (grunt) {
                         'scripts/templates/photographerTemplateImage.js',
                         'scripts/templates/photographerTemplateVideo.js',
                         'scripts/factories/media.js',
-                        'scripts/pages/photographer.js'
+                        'scripts/pages/photographer.js',
+                        'scripts/utils/contactForm.js'
                     ]
                 }
             }
