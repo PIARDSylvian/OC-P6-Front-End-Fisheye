@@ -32,7 +32,7 @@ class PhotographerTemplatePage extends AbstractTemplatePhotographer {
         info.appendChild(tagline);
 
         const price = document.createElement('p');
-        price.textContent = this._price + "€/jour";
+        price.textContent = this._price + "€ / jour";
         price.classList.add('photographer__price');
 
         return {image, info, price};

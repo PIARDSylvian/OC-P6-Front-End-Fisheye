@@ -34,16 +34,76 @@ async function displayData(photographer) {
     header.append(userPageDOM.image);
 
     AddMedia(photographer.media, photographer.name);
+    let likes = 0;
+    photographer.media.forEach((media) => likes += media.likes);
 
-    console.log(userPageDOM.price); // append Price & likes
+    AddTotalLikeAndPrice(likes, userPageDOM.price);
 };
+
+function sortMedia(medias, value) {
+    switch (value) {
+        case '2':
+            medias.sort((a, b) => {
+                if(a.title < b.title) { return -1; }
+                if(a.title > b.title) { return 1; }
+                return 0;
+            });
+            break;
+        case '1':
+            medias.sort((a, b) => new Date(b.date) - new Date(a.date))
+            break;
+        case '0':
+        default:
+            medias.sort((a, b) => b.likes - a.likes);
+            break;
+    }
+
+    return medias;
+}
 
 function AddMedia(medias, name) {
     const wrapper = document.querySelector(".photographer__section__media-wrapper");
+    medias = sortMedia(medias);
+    wrapper.dataset.sort = "0";
     medias.forEach((media) => {
         const result = mediaFactory(media, name);
         wrapper.appendChild(result.getMediaCardDOM());
     });
+
+    const select = document.querySelector("#listbox_sort_by");
+    select.addEventListener('blur', function(){
+        const value = select.querySelector('li[aria-selected="true"]').dataset.value;
+        if (value !== wrapper.dataset.sort) {
+            wrapper.innerHTML = '';
+            wrapper.dataset.sort = value;
+
+            const sort = sortMedia(medias, value);
+            sort.forEach((media) => {
+                const result = mediaFactory(media, name);
+                wrapper.appendChild(result.getMediaCardDOM());
+            });
+        }
+    });
+}
+
+function AddTotalLikeAndPrice(likes, price) {
+    const div = document.createElement('div');
+    div.classList.add('photographer__like-and-price');
+
+    const divLike = document.createElement('div');
+    const p = document.createElement('p');
+    p.innerText = likes;
+    const img = document.createElement('img');
+    img.setAttribute('src', 'assets/icons/heart.svg');
+    img.setAttribute('alt', 'like');
+    
+    divLike.appendChild(p);
+    divLike.appendChild(img);
+
+    div.appendChild(divLike);
+    div.appendChild(price);
+
+    document.querySelector("main").append(div);
 }
 
 function CustomSelect(id, name, data) {
@@ -153,13 +213,14 @@ function CustomSelect(id, name, data) {
         // lose focus
         button.addEventListener('blur', function(){
             if(options.classList.contains('is-open')) {
-                button.style.display = 'none';
+                button.style.zIndex = -1;
             }
         });
 
         options.addEventListener('blur', function(){
             options.classList.remove('is-open');
-            button.style.display = 'block';
+            options.style.height = "3em";
+            button.style.zIndex = 2;
             this._idx = 0;
             button.innerText = options.querySelector('li[aria-selected="true"]').innerText;
             button.setAttribute("aria-expanded", false);
@@ -168,6 +229,7 @@ function CustomSelect(id, name, data) {
         // open
         button.addEventListener('click', function(e){
             options.classList.add('is-open');
+            options.style.height = "9em";
             button.setAttribute("aria-expanded", true);
             if(e.pointerId == 1 ) options.querySelector('li').classList.remove('select')
             options.focus();
@@ -194,9 +256,9 @@ function CustomSelect(id, name, data) {
 
 async function init() {
     const data = await getPhotographer(getUrlParmeterId());
-    displayData(data);
     const select = new CustomSelect('sort_by', 'Trier par', ['Popularité', 'Date', 'Titre']);
     document.querySelector(".photographer__section nav").append(select);
+    displayData(data);
 };
 
 init();
