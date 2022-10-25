@@ -9,20 +9,59 @@ function getUrlParmeterId (){
 
 async function getPhotographer(id) {
     const data = await getPhotographers().then(data => {
-        let filteredData;
-
-        data.photographers.forEach((photographer) => {
-            if(photographer.id == id) filteredData = photographer;
-        });
-        
-        filteredData.media = [];
-        data.media.forEach((media) => {
-            if(media.photographerId == id) filteredData.media.push(media);
-        });
+        let filteredData = data.photographers.find((photographer) => photographer.id == id);
+        filteredData.media = data.media.filter((media) => media.photographerId == id);
         return filteredData;
     });
 
     return (data)
+}
+
+function addCarouselBase() {
+    const carousel = document.createElement('div');
+    carousel.classList.add('carousel');
+    carousel.dataset.idx = 0;
+
+    const buttonPrev = document.createElement('button');
+    buttonPrev.innerText = "<";
+    const buttonNext = document.createElement('button');
+    buttonNext.innerText = ">";
+    const carouselContent = document.createElement('div');
+    carouselContent.classList.add('carousel__content');
+
+    carousel.append(buttonPrev, carouselContent, buttonNext);
+
+    buttonPrev.addEventListener('click', () => {
+        elements = carouselContent.querySelectorAll('.carousel__content>*');
+        const newIndex = +carousel.dataset.idx - 1;
+
+        if(newIndex < 0) {
+            carousel.dataset.idx = (elements.length - 1);
+        } else {
+            carousel.dataset.idx = newIndex;
+        }
+
+        elements.forEach((element, idx) => {
+            if(idx === +carousel.dataset.idx) element.setAttribute('aria-hidden', false);
+            else element.setAttribute('aria-hidden', true);
+        });
+    });
+    buttonNext.addEventListener('click', () => {
+        elements = carouselContent.querySelectorAll('.carousel__content>*');
+        const newIndex = +carousel.dataset.idx + 1;
+
+        if(newIndex > (elements.length - 1)) {
+            carousel.dataset.idx = 0;
+        } else {
+            carousel.dataset.idx = newIndex;
+        }
+
+        elements.forEach((element, idx) => {
+            if(idx === +carousel.dataset.idx) element.setAttribute('aria-hidden', false);
+            else element.setAttribute('aria-hidden', true);
+        });
+    });
+    return carousel
 }
 
 async function displayData(photographer) {
@@ -39,18 +78,20 @@ async function displayData(photographer) {
 
     AddTotalLikeAndPrice(likes, userPageDOM.price);
 
-    const test = document.createElement('div');
-    test.innerHTML = "test modal";
+    function onOpenModal(event) {
+        const carousel = document.querySelector('.modal .carousel');
+        carousel.dataset.idx = event.composedPath().find(element => element.tagName === "FIGURE").dataset.idx;
 
-    function aa(event) {
-        console.log(event);
-        const test = event.composedPath().find(element => element.tagName === "FIGURE");
-
-        return test;
+        const carouselContent = carousel.querySelectorAll('.carousel__content>div');
+        carouselContent.forEach((media, idx) => {
+            if(idx == carousel.dataset.idx) media.setAttribute('aria-hidden', false);
+            else media.setAttribute('aria-hidden', true);
+        })
     }
 
-    const openModal = addModal(test, (event)=>{console.log('open :', (aa(event)))}, (event)=>{console.log('close :', event)});
+    const openModal = addModal(addCarouselBase(), (event)=>{onOpenModal(event)}, (event)=>{console.log('close :', event)});
     AddMedia(photographer.media, photographer.name, openModal);
+    
 };
 
 function sortMedia(medias, value) {
@@ -78,10 +119,26 @@ function AddMedia(medias, name, openModal) {
     const wrapper = document.querySelector(".photographer__section__media-wrapper");
     medias = sortMedia(medias);
     wrapper.dataset.sort = "0";
-    medias.forEach((media) => {
+    medias.forEach((media, idx) => {
         const result = mediaFactory(media, name);
         const element = result.getMediaCardDOM();
+        element.dataset.idx = idx;
         element.addEventListener('click', (event) => openModal(event));
+        
+        const content = element.querySelector('img, video');
+        const clone = content.cloneNode(true);
+        const h3 = document.createElement('h3');
+        h3.innerText = element.getElementsByTagName('figcaption')[0].innerText;
+        const mediaWrapper = document.createElement('div');
+        mediaWrapper.append(clone, h3);
+        mediaWrapper.setAttribute('aria-hidden', true);
+        if(idx == 0) {
+            mediaWrapper.setAttribute('aria-hidden', false);
+        }
+        document.querySelector('.carousel__content').append(mediaWrapper);
+
+
+
         wrapper.appendChild(element);
     });
 
@@ -93,10 +150,24 @@ function AddMedia(medias, name, openModal) {
             wrapper.dataset.sort = value;
 
             const sort = sortMedia(medias, value);
-            sort.forEach((media) => {
+            sort.forEach((media, idx) => {
                 const result = mediaFactory(media, name);
                 const element = result.getMediaCardDOM();
+                element.dataset.idx = idx;
                 element.addEventListener('click', (event) => openModal(event));
+
+                const content = element.querySelector('img, video');
+                const clone = content.cloneNode(true);
+                const h3 = document.createElement('h3');
+                h3.innerText = element.getElementsByTagName('figcaption')[0].innerText;
+                const mediaWrapper = document.createElement('div');
+                mediaWrapper.append(clone, h3);
+                mediaWrapper.setAttribute('aria-hidden', true);
+                if(idx == 0) {
+                    mediaWrapper.setAttribute('aria-hidden', false);
+                 }
+                document.querySelector('.carousel__content').append(mediaWrapper);
+
                 wrapper.appendChild(element);
             });
         }
@@ -136,7 +207,7 @@ function addModal(content, callBackOpen = ()=>{}, callBackClose = ()=>{}) {
     modal.appendChild(img);
     modal.appendChild(content);
 
-    document.body.addEventListener("click", () => {
+    document.addEventListener("click", () => {
         if(document.querySelector(".modal.open[aria-hidden='false']")) img.click();
     });
       
