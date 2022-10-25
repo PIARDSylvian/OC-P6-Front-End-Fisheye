@@ -127,6 +127,7 @@ function AddMedia(medias, name, openModal) {
         const content = element.querySelector('img, video');
         content.addEventListener('click', (event) => openModal(event));
         const clone = content.cloneNode(true);
+        if(clone.tagName === "VIDEO") clone.setAttribute("controls", "");
         const h3 = document.createElement('h3');
         h3.innerText = element.getElementsByTagName('figcaption')[0].innerText;
         const mediaWrapper = document.createElement('div');
@@ -155,6 +156,7 @@ function AddMedia(medias, name, openModal) {
                 const content = element.querySelector('img, video');
                 content.addEventListener('click', (event) => openModal(event));
                 const clone = content.cloneNode(true);
+                if(clone.tagName === "VIDEO") clone.setAttribute("controls", "");
                 const h3 = document.createElement('h3');
                 h3.innerText = element.getElementsByTagName('figcaption')[0].innerText;
                 const mediaWrapper = document.createElement('div');

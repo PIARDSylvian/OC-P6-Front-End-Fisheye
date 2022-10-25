@@ -8,7 +8,6 @@ class PhotographerTemplateVideo extends AbstractTemplateMedia {
         const {figure, figcaption, like} = super.getRender();
 
         const video = document.createElement('video');
-        video.setAttribute('controls', '');
 
         const source = document.createElement('source');
         source.setAttribute('src', this._video);
