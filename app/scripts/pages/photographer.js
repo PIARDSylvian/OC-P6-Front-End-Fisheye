@@ -86,7 +86,7 @@ async function displayData(photographer) {
         carouselContent.forEach((media, idx) => {
             if(idx == carousel.dataset.idx) media.setAttribute('aria-hidden', false);
             else media.setAttribute('aria-hidden', true);
-        })
+        });
     }
 
     const openModal = addModal(addCarouselBase(), (event)=>{onOpenModal(event)}, (event)=>{console.log('close :', event)});
@@ -123,9 +123,9 @@ function AddMedia(medias, name, openModal) {
         const result = mediaFactory(media, name);
         const element = result.getMediaCardDOM();
         element.dataset.idx = idx;
-        element.addEventListener('click', (event) => openModal(event));
-        
+
         const content = element.querySelector('img, video');
+        content.addEventListener('click', (event) => openModal(event));
         const clone = content.cloneNode(true);
         const h3 = document.createElement('h3');
         h3.innerText = element.getElementsByTagName('figcaption')[0].innerText;
@@ -136,8 +136,6 @@ function AddMedia(medias, name, openModal) {
             mediaWrapper.setAttribute('aria-hidden', false);
         }
         document.querySelector('.carousel__content').append(mediaWrapper);
-
-
 
         wrapper.appendChild(element);
     });
@@ -154,9 +152,8 @@ function AddMedia(medias, name, openModal) {
                 const result = mediaFactory(media, name);
                 const element = result.getMediaCardDOM();
                 element.dataset.idx = idx;
-                element.addEventListener('click', (event) => openModal(event));
-
                 const content = element.querySelector('img, video');
+                content.addEventListener('click', (event) => openModal(event));
                 const clone = content.cloneNode(true);
                 const h3 = document.createElement('h3');
                 h3.innerText = element.getElementsByTagName('figcaption')[0].innerText;
@@ -218,13 +215,16 @@ function addModal(content, callBackOpen = ()=>{}, callBackClose = ()=>{}) {
         main.setAttribute('aria-hidden', false);
         modal.setAttribute('aria-hidden', true);
         modal.classList.remove('open');
+        document.body.style.overflow = "auto";
     });
 
     const openModal = (e) => {
         if(document.querySelector(".modal.open[aria-hidden='false']")) return;
         callBackOpen(e);
+        document.body.style.overflow = "hidden";
         main.setAttribute('aria-hidden', true);
         modal.setAttribute('aria-hidden', false);
+        modal.style.top = `calc(50% + ${window.scrollY}px)`;
         setTimeout(() => modal.classList.add('open'), 10);
     }
 
