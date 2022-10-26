@@ -22,9 +22,10 @@ class AbstractTemplateMedia {
 
         const p = document.createElement('p');
         p.innerText = this._likes;
-        like.appendChild(p)
+        like.appendChild(p);
 
-        const img_eart = document.createElement('img');
+        const img_eart = document.createElement('input');
+        img_eart.setAttribute('type', 'image');
         img_eart.setAttribute('src', 'assets/icons/heart.svg');
         img_eart.setAttribute('alt', 'like');
 

@@ -114,16 +114,15 @@ function sortMedia(medias, value) {
 
     return medias;
 }
-
 function AddMedia(medias, name, openModal) {
     const wrapper = document.querySelector(".photographer__section__media-wrapper");
+    let allLikes = {};
     medias = sortMedia(medias);
     wrapper.dataset.sort = "0";
     medias.forEach((media, idx) => {
         const result = mediaFactory(media, name);
         const element = result.getMediaCardDOM();
         element.dataset.idx = idx;
-
         const content = element.querySelector('img, video');
         content.addEventListener('click', (event) => openModal(event));
         const clone = content.cloneNode(true);
@@ -133,11 +132,18 @@ function AddMedia(medias, name, openModal) {
         const mediaWrapper = document.createElement('div');
         mediaWrapper.append(clone, h3);
         mediaWrapper.setAttribute('aria-hidden', true);
-        if(idx == 0) {
-            mediaWrapper.setAttribute('aria-hidden', false);
-        }
+        if(idx == 0) mediaWrapper.setAttribute('aria-hidden', false);
         document.querySelector('.carousel__content').append(mediaWrapper);
-
+        const likeButton = element.querySelector('.like_count input');
+        likeButton.addEventListener('click',()=>{
+            likeCount = element.querySelector('.like_count p')
+            let likes = +likeCount.innerText;
+            likes++;
+            likeCount.innerText = likes;
+            document.querySelector('.photographer__like-and-price div p').innerText++;
+            allLikes[media.id] = likes;
+        });
+        
         wrapper.appendChild(element);
     });
 
@@ -162,10 +168,18 @@ function AddMedia(medias, name, openModal) {
                 const mediaWrapper = document.createElement('div');
                 mediaWrapper.append(clone, h3);
                 mediaWrapper.setAttribute('aria-hidden', true);
-                if(idx == 0) {
-                    mediaWrapper.setAttribute('aria-hidden', false);
-                 }
+                if(idx == 0) mediaWrapper.setAttribute('aria-hidden', false);
                 document.querySelector('.carousel__content').append(mediaWrapper);
+                const likeButton = element.querySelector('.like_count input');
+                likeButton.addEventListener('click',()=>{
+                    likeCount = element.querySelector('.like_count p')
+                    let likes = +likeCount.innerText;
+                    likes++;
+                    likeCount.innerText = likes;
+                    document.querySelector('.photographer__like-and-price div p').innerText++;
+                    allLikes[media.id] = likes;
+                });
+                if(allLikes[media.id]) element.querySelector('.like_count p').innerText = allLikes[media.id];
 
                 wrapper.appendChild(element);
             });
