@@ -23,8 +23,10 @@ function addCarouselBase() {
     carousel.dataset.idx = 0;
 
     const buttonPrev = document.createElement('button');
+    buttonPrev.setAttribute("aria-label","Media precedent")
     buttonPrev.innerText = "<";
     const buttonNext = document.createElement('button');
+    buttonNext.setAttribute("aria-label","Media suivant")
     buttonNext.innerText = ">";
     const carouselContent = document.createElement('div');
     carouselContent.classList.add('carousel__content');
@@ -89,7 +91,18 @@ async function displayData(photographer) {
         });
     }
 
-    const openModal = addModal(addCarouselBase(), (event)=>{onOpenModal(event)}, (event)=>{console.log('close :', event)});
+    function onCloseModal(event) {
+        const carouselIdx = document.querySelector('.modal .carousel').dataset.idx;
+        const allMedia = document.querySelectorAll('.photographer__section__media-wrapper figure');
+        allMedia.forEach((media)=>{
+            if(media.dataset.idx === carouselIdx) {
+                const link = media.querySelector('a');
+                link.focus();
+            };
+        });
+    }
+
+    const openModal = addModal(addCarouselBase(), (event)=>{onOpenModal(event)}, (event)=>{onCloseModal(event)});
     AddMedia(photographer.media, photographer.name, openModal);
     
 };
@@ -123,9 +136,9 @@ function AddMedia(medias, name, openModal) {
         const result = mediaFactory(media, name);
         const element = result.getMediaCardDOM();
         element.dataset.idx = idx;
-        const content = element.querySelector('img, video');
+        const content = element.querySelector('a');
         content.addEventListener('click', (event) => openModal(event));
-        const clone = content.cloneNode(true);
+        const clone = content.cloneNode(true).querySelector('img, video');
         if(clone.tagName === "VIDEO") clone.setAttribute("controls", "");
         const h3 = document.createElement('h3');
         h3.innerText = element.getElementsByTagName('figcaption')[0].innerText;
@@ -152,6 +165,7 @@ function AddMedia(medias, name, openModal) {
         const value = select.querySelector('li[aria-selected="true"]').dataset.value;
         if (value !== wrapper.dataset.sort) {
             wrapper.innerHTML = '';
+            document.querySelector('.carousel__content').innerHTML = '';
             wrapper.dataset.sort = value;
 
             const sort = sortMedia(medias, value);
@@ -159,9 +173,9 @@ function AddMedia(medias, name, openModal) {
                 const result = mediaFactory(media, name);
                 const element = result.getMediaCardDOM();
                 element.dataset.idx = idx;
-                const content = element.querySelector('img, video');
+                const content = element.querySelector('a');
                 content.addEventListener('click', (event) => openModal(event));
-                const clone = content.cloneNode(true);
+                const clone = content.cloneNode(true).querySelector('img, video');
                 if(clone.tagName === "VIDEO") clone.setAttribute("controls", "");
                 const h3 = document.createElement('h3');
                 h3.innerText = element.getElementsByTagName('figcaption')[0].innerText;
@@ -214,20 +228,23 @@ function addModal(content, callBackOpen = ()=>{}, callBackClose = ()=>{}) {
     modal.setAttribute('aria-hidden', true);
     modal.classList.add('modal');
 
-    const img = document.createElement('img');
-    img.setAttribute('src', 'assets/icons/close.svg');
-    img.setAttribute('alt', 'close');
-    modal.appendChild(img);
+    const closeBtn = document.createElement('input');
+    closeBtn.setAttribute('type', 'image');
+    closeBtn.setAttribute('src', 'assets/icons/close.svg');
+    closeBtn.setAttribute('alt', 'close');
+    
+    modal.appendChild(closeBtn);
     modal.appendChild(content);
 
     document.addEventListener("click", () => {
-        if(document.querySelector(".modal.open[aria-hidden='false']")) img.click();
+        if(document.querySelector(".modal.open[aria-hidden='false']")) closeBtn.click();
     });
       
     modal.addEventListener("click", (event) => event.stopPropagation());
 
-    img.addEventListener('click', (event) => {
-        callBackClose(event);
+    closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        callBackClose(e);
         main.setAttribute('aria-hidden', false);
         modal.setAttribute('aria-hidden', true);
         modal.classList.remove('open');
@@ -235,6 +252,7 @@ function addModal(content, callBackOpen = ()=>{}, callBackClose = ()=>{}) {
     });
 
     const openModal = (e) => {
+        e.preventDefault();
         if(document.querySelector(".modal.open[aria-hidden='false']")) return;
         callBackOpen(e);
         document.body.style.overflow = "hidden";
@@ -242,6 +260,7 @@ function addModal(content, callBackOpen = ()=>{}, callBackClose = ()=>{}) {
         modal.setAttribute('aria-hidden', false);
         modal.style.top = `calc(50% + ${window.scrollY}px)`;
         setTimeout(() => modal.classList.add('open'), 10);
+        closeBtn.focus();
     }
 
     document.body.appendChild(modal);

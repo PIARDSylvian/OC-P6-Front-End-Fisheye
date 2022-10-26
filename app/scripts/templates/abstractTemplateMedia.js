@@ -28,9 +28,13 @@ class AbstractTemplateMedia {
         img_eart.setAttribute('type', 'image');
         img_eart.setAttribute('src', 'assets/icons/heart.svg');
         img_eart.setAttribute('alt', 'like');
+        const link = document.createElement('a');
+        link.setAttribute('href', '#');
+        link.setAttribute('role', 'button');
+        link.setAttribute('aria-label', 'Afficher en grand');
 
         like.appendChild(img_eart);
 
-        return {figure, figcaption, like};
+        return {figure, figcaption, like, link};
     }
 }

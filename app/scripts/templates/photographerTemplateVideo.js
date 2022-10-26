@@ -5,7 +5,7 @@ class PhotographerTemplateVideo extends AbstractTemplateMedia {
     }
 
     getRender() {
-        const {figure, figcaption, like} = super.getRender();
+        const {figure, figcaption, like, link} = super.getRender();
 
         const video = document.createElement('video');
 
@@ -14,7 +14,8 @@ class PhotographerTemplateVideo extends AbstractTemplateMedia {
         source.setAttribute('type', 'video/mp4');
         video.appendChild(source);
 
-        figure.appendChild(video);
+        link.appendChild(video);
+        figure.appendChild(link);
         figure.appendChild(figcaption);
         figure.appendChild(like);
 

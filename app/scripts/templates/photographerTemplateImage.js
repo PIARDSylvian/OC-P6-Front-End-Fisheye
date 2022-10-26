@@ -5,13 +5,13 @@ class PhotographerTemplateImage extends AbstractTemplateMedia {
     }
 
     getRender() {
-        const {figure, figcaption, like} = super.getRender();
+        const {figure, figcaption, like, link} = super.getRender();
 
         const img = document.createElement('img');
         img.setAttribute('src', this._image);
         img.setAttribute('alt', this._title);
-
-        figure.appendChild(img);
+        link.appendChild(img);
+        figure.appendChild(link);
         figure.appendChild(figcaption);
         figure.appendChild(like);
 
