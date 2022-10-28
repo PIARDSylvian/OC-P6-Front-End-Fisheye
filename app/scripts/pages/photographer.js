@@ -63,7 +63,52 @@ function addCarouselBase() {
             else element.setAttribute('aria-hidden', true);
         });
     });
-    return carousel
+    return carousel;
+}
+
+function addContactForm(photographerName) {
+    const header = document.createElement('header');
+    const h1 = document.createElement('h1');
+    h1.innerHTML = "Contactez-moi <br>" + photographerName;
+    header.append(h1);
+    const form = document.createElement('form');
+
+    const labelFirstName = document.createElement('label');
+    labelFirstName.innerText = "Prénom";
+    labelFirstName.setAttribute("for", "firstName");
+    const inputFirstName = document.createElement('input');
+    inputFirstName.id  = "firstName";
+
+    const labelLastName = document.createElement('label');
+    labelLastName.innerText = "Nom";
+    labelLastName.setAttribute("for", "lastName");
+    const inputLastName = document.createElement('input');
+    inputLastName.id  = "lastName";
+
+
+    const labelEmail = document.createElement('label');
+    labelEmail.innerText = "Email";
+    labelEmail.setAttribute("for", "email");
+    const inputEmail = document.createElement('input');
+    inputEmail.id  = "email";
+
+
+    const labelMessage = document.createElement('label');
+    labelMessage.innerText = "Votre message";
+    labelMessage.setAttribute("for", "message");
+    const inputMessage = document.createElement('input');
+    inputMessage.id  = "message";
+
+    const submitButton = document.createElement('input');
+    submitButton.type="submit";
+    submitButton.value="Envoyer";
+
+    form.append(labelFirstName, inputFirstName, labelLastName, inputLastName, labelEmail, inputEmail, labelMessage, inputMessage, submitButton);
+    form.addEventListener("submit", (e) => {
+        e.target.querySelectorAll("input:not([type='submit'])").forEach((elem) => console.log(elem.value));
+    });
+
+    return [header, form];
 }
 
 async function displayData(photographer) {
@@ -80,7 +125,7 @@ async function displayData(photographer) {
 
     AddTotalLikeAndPrice(likes, userPageDOM.price);
 
-    function onOpenModal(event) {
+    function onOpenModalCarousel(event) {
         const carousel = document.querySelector('.modal .carousel');
         carousel.dataset.idx = event.composedPath().find(element => element.tagName === "FIGURE").dataset.idx;
 
@@ -91,8 +136,8 @@ async function displayData(photographer) {
         });
     }
 
-    function onCloseModal(event) {
-        const carouselIdx = document.querySelector('.modal .carousel').dataset.idx;
+    function onCloseModalCarousel() {
+        const carouselIdx = document.querySelector('#carousel_modal .carousel').dataset.idx;
         const allMedia = document.querySelectorAll('.photographer__section__media-wrapper figure');
         allMedia.forEach((media)=>{
             if(media.dataset.idx === carouselIdx) {
@@ -102,9 +147,16 @@ async function displayData(photographer) {
         });
     }
 
-    const openModal = addModal(addCarouselBase(), (event)=>{onOpenModal(event)}, (event)=>{onCloseModal(event)});
-    AddMedia(photographer.media, photographer.name, openModal);
-    
+    const openModalCarousel = addModal(addCarouselBase(), 'carousel_modal', (event)=>{onOpenModalCarousel(event)}, (event)=>{onCloseModalCarousel()});
+    AddMedia(photographer.media, photographer.name, openModalCarousel);
+
+    function onCloseModalContact() {
+        document.querySelector("#contact_modal form").reset();
+        document.querySelector(".photographer__header .contact_button").focus();
+    }
+
+    const openModalContact = addModal(addContactForm(photographer.name),'contact_modal', ()=>{}, ()=> onCloseModalContact());
+    document.querySelector(".photographer__header .contact_button").addEventListener("click",(e)=> openModalContact(e));
 };
 
 function sortMedia(medias, value) {
@@ -221,11 +273,12 @@ function AddTotalLikeAndPrice(likes, price) {
     document.querySelector("main").append(div);
 }
 
-function addModal(content, callBackOpen = ()=>{}, callBackClose = ()=>{}) {
+function addModal(content, id,callBackOpen = ()=>{}, callBackClose = ()=>{}) {
     const main = document.querySelector('main');
     const modal = document.createElement('div');
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-hidden', true);
+    modal.setAttribute('id', id);
     modal.classList.add('modal');
 
     const closeBtn = document.createElement('input');
@@ -234,7 +287,9 @@ function addModal(content, callBackOpen = ()=>{}, callBackClose = ()=>{}) {
     closeBtn.setAttribute('alt', 'close');
     
     modal.appendChild(closeBtn);
-    modal.appendChild(content);
+
+    if(!content.length) modal.appendChild(content);
+    else content.forEach((elem)=>modal.appendChild(elem));
 
     document.addEventListener("click", () => {
         if(document.querySelector(".modal.open[aria-hidden='false']")) closeBtn.click();
