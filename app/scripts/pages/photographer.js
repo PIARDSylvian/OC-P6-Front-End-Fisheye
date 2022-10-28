@@ -105,6 +105,7 @@ function addContactForm(photographerName) {
 
     form.append(labelFirstName, inputFirstName, labelLastName, inputLastName, labelEmail, inputEmail, labelMessage, inputMessage, submitButton);
     form.addEventListener("submit", (e) => {
+        e.preventDefault();
         e.target.querySelectorAll("input:not([type='submit'])").forEach((elem) => console.log(elem.value));
     });
 
@@ -123,7 +124,7 @@ async function displayData(photographer) {
     let likes = 0;
     photographer.media.forEach((media) => likes += media.likes);
 
-    AddTotalLikeAndPrice(likes, userPageDOM.price);
+    addTotalLikeAndPrice(likes, userPageDOM.price);
 
     function onOpenModalCarousel(event) {
         const carousel = document.querySelector('.modal .carousel');
@@ -148,7 +149,7 @@ async function displayData(photographer) {
     }
 
     const openModalCarousel = addModal(addCarouselBase(), 'carousel_modal', (event)=>{onOpenModalCarousel(event)}, (event)=>{onCloseModalCarousel()});
-    AddMedia(photographer.media, photographer.name, openModalCarousel);
+    addMedia(photographer.media, photographer.name, openModalCarousel);
 
     function onCloseModalContact() {
         document.querySelector("#contact_modal form").reset();
@@ -179,7 +180,7 @@ function sortMedia(medias, value) {
 
     return medias;
 }
-function AddMedia(medias, name, openModal) {
+function addMedia(medias, name, openModal) {
     const wrapper = document.querySelector(".photographer__section__media-wrapper");
     let allLikes = {};
     medias = sortMedia(medias);
@@ -253,7 +254,7 @@ function AddMedia(medias, name, openModal) {
     });
 }
 
-function AddTotalLikeAndPrice(likes, price) {
+function addTotalLikeAndPrice(likes, price) {
     const div = document.createElement('div');
     div.classList.add('photographer__like-and-price');
 
