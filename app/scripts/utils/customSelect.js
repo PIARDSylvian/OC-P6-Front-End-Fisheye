@@ -7,7 +7,7 @@ class CustomSelect {
     }
     
 
-    createOption = () => {
+    createOption() {
         const listbox = document.createElement('ul');
         listbox.setAttribute("id", "listbox_" + this._id);
         listbox.setAttribute("role", "listbox");
@@ -30,27 +30,27 @@ class CustomSelect {
         return listbox
     };
 
-    keydown = (key, optionsGroup) => {
+    keydown(key, optionsGroup) {
         switch (key) {
             case 'ArrowDown':
                 if (this._idx == (optionsGroup.length - 1)) {
-                    changeSelect(0, optionsGroup)
+                    this.changeSelect(0, optionsGroup)
                 } else {
-                    changeSelect(this._idx + 1, optionsGroup)
+                    this.changeSelect(this._idx + 1, optionsGroup)
                 }
                 return true
                 break;
             case 'ArrowUp':
                 if (this._idx == 0) {
-                    changeSelect((optionsGroup.length - 1), optionsGroup)
+                    this.changeSelect((optionsGroup.length - 1), optionsGroup)
                 } else {
-                    changeSelect(this._idx - 1, optionsGroup)
+                    this.changeSelect(this._idx - 1, optionsGroup)
                 }
                 return true
                 break;
             case 'Enter':
             case ' ':
-                changeSelected(optionsGroup[this._idx], optionsGroup)
+                this.changeSelected(optionsGroup[this._idx], optionsGroup)
                 return false
                 break;
             default:
@@ -59,7 +59,7 @@ class CustomSelect {
         }
     }
 
-    changeSelect = (selected, optionsGroup) => {
+    changeSelect(selected, optionsGroup) {
         this._idx = selected;
         optionsGroup.forEach((option, idx)=> {
             if (idx !== this._idx) {
@@ -70,7 +70,7 @@ class CustomSelect {
         });
     }
 
-    changeSelected = (selected, optionsGroup) => {
+    changeSelected(selected, optionsGroup) {
         const list = document.querySelector("#listbox_"+ this._id);
         optionsGroup.forEach((elem) =>{
             if (elem !== selected) list.appendChild(elem)
@@ -122,7 +122,7 @@ class CustomSelect {
         });
 
         // open
-        button.addEventListener('click', function(e){
+        button.addEventListener('click', (e) => {
             options.classList.add('is-open');
             options.style.height = "9em";
             button.setAttribute("aria-expanded", true);
@@ -131,15 +131,15 @@ class CustomSelect {
         });
 
         // select
-        options.addEventListener('keydown', function(e){
+        options.addEventListener('keydown', (e) => {
             const optionsGroup = options.querySelectorAll('li');
-            const mouveAction = keydown(e.key, optionsGroup);
+            const mouveAction = this.keydown(e.key, optionsGroup);
             if (!mouveAction) options.blur();
         })
 
-        options.addEventListener('click', function(e){
+        options.addEventListener('click', (e) => {
             const optionsGroup = options.querySelectorAll('li');
-            changeSelected(e.target, optionsGroup);
+            this.changeSelected(e.target, optionsGroup);
             options.blur();
         })
     

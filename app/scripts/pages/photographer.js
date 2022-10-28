@@ -14,7 +14,7 @@ async function getPhotographer(id) {
         return filteredData;
     });
 
-    return (data)
+    return data
 }
 
 function addCarouselBase() {
@@ -43,8 +43,8 @@ function addCarouselBase() {
             carousel.dataset.idx = newIndex;
         }
 
-        elements.forEach((element, idx) => {
-            if(idx === +carousel.dataset.idx) element.setAttribute('aria-hidden', false);
+        elements.forEach((element) => {
+            if(element.dataset.order === carousel.dataset.idx) element.setAttribute('aria-hidden', false);
             else element.setAttribute('aria-hidden', true);
         });
     });
@@ -58,8 +58,8 @@ function addCarouselBase() {
             carousel.dataset.idx = newIndex;
         }
 
-        elements.forEach((element, idx) => {
-            if(idx === +carousel.dataset.idx) element.setAttribute('aria-hidden', false);
+        elements.forEach((element) => {
+            if(element.dataset.order === carousel.dataset.idx) element.setAttribute('aria-hidden', false);
             else element.setAttribute('aria-hidden', true);
         });
     });
@@ -128,11 +128,11 @@ async function displayData(photographer) {
 
     function onOpenModalCarousel(event) {
         const carousel = document.querySelector('.modal .carousel');
-        carousel.dataset.idx = event.composedPath().find(element => element.tagName === "FIGURE").dataset.idx;
+        carousel.dataset.idx = event.composedPath().find(element => element.tagName === "FIGURE").dataset.order;
 
         const carouselContent = carousel.querySelectorAll('.carousel__content>div');
-        carouselContent.forEach((media, idx) => {
-            if(idx == carousel.dataset.idx) media.setAttribute('aria-hidden', false);
+        carouselContent.forEach((media) => {
+            if(media.dataset.order == carousel.dataset.idx) media.setAttribute('aria-hidden', false);
             else media.setAttribute('aria-hidden', true);
         });
     }
@@ -141,7 +141,7 @@ async function displayData(photographer) {
         const carouselIdx = document.querySelector('#carousel_modal .carousel').dataset.idx;
         const allMedia = document.querySelectorAll('.photographer__section__media-wrapper figure');
         allMedia.forEach((media)=>{
-            if(media.dataset.idx === carouselIdx) {
+            if(media.dataset.order === carouselIdx) {
                 const link = media.querySelector('a');
                 link.focus();
             };
@@ -180,15 +180,17 @@ function sortMedia(medias, value) {
 
     return medias;
 }
+
 function addMedia(medias, name, openModal) {
     const wrapper = document.querySelector(".photographer__section__media-wrapper");
-    let allLikes = {};
     medias = sortMedia(medias);
     wrapper.dataset.sort = "0";
     medias.forEach((media, idx) => {
         const result = mediaFactory(media, name);
         const element = result.getMediaCardDOM();
         element.dataset.idx = idx;
+        element.dataset.order = idx;
+        element.dataset.id = media.id;
         const content = element.querySelector('a');
         content.addEventListener('click', (event) => openModal(event));
         const clone = content.cloneNode(true).querySelector('img, video');
@@ -198,6 +200,9 @@ function addMedia(medias, name, openModal) {
         const mediaWrapper = document.createElement('div');
         mediaWrapper.append(clone, h3);
         mediaWrapper.setAttribute('aria-hidden', true);
+        mediaWrapper.dataset.idx = idx;
+        mediaWrapper.dataset.order = idx;
+        mediaWrapper.dataset.id = media.id;
         if(idx == 0) mediaWrapper.setAttribute('aria-hidden', false);
         document.querySelector('.carousel__content').append(mediaWrapper);
         const likeButton = element.querySelector('.like_count input');
@@ -207,7 +212,6 @@ function addMedia(medias, name, openModal) {
             likes++;
             likeCount.innerText = likes;
             document.querySelector('.photographer__like-and-price div p').innerText++;
-            allLikes[media.id] = likes;
         });
         
         wrapper.appendChild(element);
@@ -217,38 +221,11 @@ function addMedia(medias, name, openModal) {
     select.addEventListener('blur', function(){
         const value = select.querySelector('li[aria-selected="true"]').dataset.value;
         if (value !== wrapper.dataset.sort) {
-            wrapper.innerHTML = '';
-            document.querySelector('.carousel__content').innerHTML = '';
-            wrapper.dataset.sort = value;
-
             const sort = sortMedia(medias, value);
             sort.forEach((media, idx) => {
-                const result = mediaFactory(media, name);
-                const element = result.getMediaCardDOM();
-                element.dataset.idx = idx;
-                const content = element.querySelector('a');
-                content.addEventListener('click', (event) => openModal(event));
-                const clone = content.cloneNode(true).querySelector('img, video');
-                if(clone.tagName === "VIDEO") clone.setAttribute("controls", "");
-                const h3 = document.createElement('h3');
-                h3.innerText = element.getElementsByTagName('figcaption')[0].innerText;
-                const mediaWrapper = document.createElement('div');
-                mediaWrapper.append(clone, h3);
-                mediaWrapper.setAttribute('aria-hidden', true);
-                if(idx == 0) mediaWrapper.setAttribute('aria-hidden', false);
-                document.querySelector('.carousel__content').append(mediaWrapper);
-                const likeButton = element.querySelector('.like_count input');
-                likeButton.addEventListener('click',()=>{
-                    likeCount = element.querySelector('.like_count p')
-                    let likes = +likeCount.innerText;
-                    likes++;
-                    likeCount.innerText = likes;
-                    document.querySelector('.photographer__like-and-price div p').innerText++;
-                    allLikes[media.id] = likes;
-                });
-                if(allLikes[media.id]) element.querySelector('.like_count p').innerText = allLikes[media.id];
-
-                wrapper.appendChild(element);
+                document.querySelector(`.photographer__section__media-wrapper figure[data-id="${media.id}"]`).style.order = idx;
+                document.querySelector(`.photographer__section__media-wrapper figure[data-id="${media.id}"]`).dataset.order = idx;
+                document.querySelector(`#carousel_modal .carousel__content div[data-id="${media.id}"]`).dataset.order = idx;
             });
         }
     });
