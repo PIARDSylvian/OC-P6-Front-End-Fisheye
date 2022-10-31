@@ -270,10 +270,14 @@ form {
         margin-bottom: 26px;
     }
 
-    input {
+    input, textarea {
         width: 100%;
-        height: 68px;
+        height: 3em;
         border: none;
         border-radius: 5px;
+    }
+
+    textarea {
+        height: 9em;
     }
 }

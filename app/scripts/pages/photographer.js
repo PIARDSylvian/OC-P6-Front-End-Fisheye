@@ -96,7 +96,7 @@ function addContactForm(photographerName) {
     const labelMessage = document.createElement('label');
     labelMessage.innerText = "Votre message";
     labelMessage.setAttribute("for", "message");
-    const inputMessage = document.createElement('input');
+    const inputMessage = document.createElement('textarea');
     inputMessage.id  = "message";
 
     const submitButton = document.createElement('input');
