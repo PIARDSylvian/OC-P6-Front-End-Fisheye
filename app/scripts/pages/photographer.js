@@ -220,14 +220,12 @@ function addMedia(medias, name, openModal) {
     const select = document.querySelector("#listbox_sort_by");
     select.addEventListener('blur', function(){
         const value = select.querySelector('li[aria-selected="true"]').dataset.value;
-        if (value !== wrapper.dataset.sort) {
-            const sort = sortMedia(medias, value);
-            sort.forEach((media, idx) => {
-                document.querySelector(`.photographer__section__media-wrapper figure[data-id="${media.id}"]`).style.order = idx;
-                document.querySelector(`.photographer__section__media-wrapper figure[data-id="${media.id}"]`).dataset.order = idx;
-                document.querySelector(`#carousel_modal .carousel__content div[data-id="${media.id}"]`).dataset.order = idx;
-            });
-        }
+        const sort = sortMedia(medias, value);
+        sort.forEach((media, idx) => {
+            document.querySelector(`.photographer__section__media-wrapper figure[data-id="${media.id}"]`).style.order = idx;
+            document.querySelector(`.photographer__section__media-wrapper figure[data-id="${media.id}"]`).dataset.order = idx;
+            document.querySelector(`#carousel_modal .carousel__content div[data-id="${media.id}"]`).dataset.order = idx;
+        });
     });
 }
 

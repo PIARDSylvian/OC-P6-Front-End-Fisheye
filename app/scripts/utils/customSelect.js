@@ -76,8 +76,8 @@ class CustomSelect {
             if (elem !== selected) list.appendChild(elem)
         });
 
-        if (selected.ariaSelected === "false") {
-            optionsGroup.forEach(option=> option.ariaSelected = (selected === option)? true: false);
+        if (selected.getAttribute("aria-selected") === "false") {
+            optionsGroup.forEach((option)=> option.setAttribute("aria-selected", (selected.id === option.id)));
         }
     }
 
