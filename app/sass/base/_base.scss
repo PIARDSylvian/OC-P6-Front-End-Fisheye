@@ -4,6 +4,13 @@
 * {
     box-sizing: border-box;
     font-family: "DM Sans", sans-serif;
+    &:focus, &:focus-visible, button:focus, button:focus-visible, [type="button"]:focus-visible {
+        outline: solid .2em $font-primary;
+
+        &[alt="like"] {
+            outline-color: adjust-hue($color: $font-primary, $degrees: -40);
+        }
+    }
 }
 
 body {

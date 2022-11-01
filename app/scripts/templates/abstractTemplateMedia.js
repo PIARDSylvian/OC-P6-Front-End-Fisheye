@@ -30,6 +30,7 @@ class AbstractTemplateMedia {
         img_eart.setAttribute('alt', 'like');
         const link = document.createElement('a');
         link.setAttribute('href', '#');
+        link.setAttribute('id', 'media-'+this._id);
         link.setAttribute('role', 'button');
         link.setAttribute('aria-label', 'Afficher en grand');
 

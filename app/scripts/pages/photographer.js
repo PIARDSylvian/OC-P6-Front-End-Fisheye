@@ -221,11 +221,18 @@ function addMedia(medias, name, openModal) {
     select.addEventListener('blur', function(){
         const value = select.querySelector('li[aria-selected="true"]').dataset.value;
         const sort = sortMedia(medias, value);
+        count = 5;
         sort.forEach((media, idx) => {
+            document.querySelector(`.photographer__section__media-wrapper figure[data-id="${media.id}"] a`).setAttribute("tabindex", count);
+            count++
+            document.querySelector(`.photographer__section__media-wrapper figure[data-id="${media.id}"] input`).setAttribute("tabindex", count);
+            count++
             document.querySelector(`.photographer__section__media-wrapper figure[data-id="${media.id}"]`).style.order = idx;
             document.querySelector(`.photographer__section__media-wrapper figure[data-id="${media.id}"]`).dataset.order = idx;
             document.querySelector(`#carousel_modal .carousel__content div[data-id="${media.id}"]`).dataset.order = idx;
         });
+
+        document.querySelector('#label_sort_by').focus();
     });
 }
 
@@ -302,7 +309,7 @@ function addModal(content, id,callBackOpen = ()=>{}, callBackClose = ()=>{}) {
 async function init() {
     const data = await getPhotographer(getUrlParmeterId());
     const select = new CustomSelect('sort_by', 'Trier par', ['Popularité', 'Date', 'Titre']).createSelect();
-
+    select.querySelector("#sort_by").setAttribute('tabindex', "3");
     document.querySelector(".photographer__section nav").append(select);
     displayData(data);
 };

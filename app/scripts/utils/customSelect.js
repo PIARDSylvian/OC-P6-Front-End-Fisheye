@@ -126,12 +126,13 @@ class CustomSelect {
             options.classList.add('is-open');
             options.style.height = "9em";
             button.setAttribute("aria-expanded", true);
-            if(e.pointerId == 1 ) options.querySelector('li').classList.remove('select')
+            if(e.pointerId == 1 ) options.querySelector('li').classList.remove('select');
             options.focus();
         });
 
         // select
         options.addEventListener('keydown', (e) => {
+            e.preventDefault();
             const optionsGroup = options.querySelectorAll('li');
             const mouveAction = this.keydown(e.key, optionsGroup);
             if (!mouveAction) options.blur();
