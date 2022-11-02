@@ -1,3 +1,7 @@
+/**
+ * Abstract Class for photographer must be extend
+ * add all common values
+ */
 class AbstractTemplatePhotographer {
     constructor(data) {
         if (this.constructor === AbstractModelPhotographer) {
@@ -16,6 +20,6 @@ class AbstractTemplatePhotographer {
         article.appendChild(img);
         article.appendChild(h2);
 
-        return (article);
+        return article;
     }
 }

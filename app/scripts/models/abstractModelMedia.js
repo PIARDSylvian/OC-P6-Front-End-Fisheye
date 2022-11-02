@@ -1,3 +1,7 @@
+/**
+ * Abstract Class for Media must be extend
+ * add all common values
+ */
 class AbstractModelMedia {
     constructor(data, photographerName) {
         if (this.constructor === AbstractModelMedia) {

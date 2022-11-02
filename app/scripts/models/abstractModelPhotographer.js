@@ -1,3 +1,7 @@
+/**
+ * Abstract Class for photographer must be extend
+ * add all common values
+ */
 class AbstractModelPhotographer {
     constructor(data) {
         if (this.constructor === AbstractModelPhotographer) {
