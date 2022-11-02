@@ -1,3 +1,11 @@
+/**
+ * Retrun right object of media (image or video)
+ * 
+ * @param {Array} media 
+ * @param {string} photographerName
+ * 
+ * @returns {object} mediaObject for call getMediaCardDOM();
+ */
 function mediaFactory(media, photographerName) {
     if(media.image) {
         return new PhotographerImageCard(media, photographerName);
