@@ -1,3 +1,6 @@
+/**
+ * Ceate custom select input
+ */
 class CustomSelect {
     constructor(id, name, data) {
         this._data = data;
@@ -6,7 +9,11 @@ class CustomSelect {
         this._idx = 0;
     }
     
-
+    /**
+     * Create list of elements
+     * 
+     * @returns dom object.
+     */
     createOption() {
         const listbox = document.createElement('ul');
         listbox.setAttribute("id", "listbox_" + this._id);
@@ -28,8 +35,13 @@ class CustomSelect {
         });
 
         return listbox
-    };
+    }
 
+    /**
+     * Call this.changeSelect() if right Key
+     * 
+     * @returns {boolean} if move key or not
+     */
     keydown(key, optionsGroup) {
         switch (key) {
             case 'ArrowDown':
@@ -39,7 +51,6 @@ class CustomSelect {
                     this.changeSelect(this._idx + 1, optionsGroup)
                 }
                 return true
-                break;
             case 'ArrowUp':
                 if (this._idx == 0) {
                     this.changeSelect((optionsGroup.length - 1), optionsGroup)
@@ -47,18 +58,21 @@ class CustomSelect {
                     this.changeSelect(this._idx - 1, optionsGroup)
                 }
                 return true
-                break;
             case 'Enter':
             case ' ':
                 this.changeSelected(optionsGroup[this._idx], optionsGroup)
                 return false
-                break;
             default:
                 return false
-                break;
         }
     }
 
+    /**
+     * Add / Remove class select in list
+     * 
+     * @param {*} selected index of element selected 
+     * @param {*} optionsGroup list of options
+     */
     changeSelect(selected, optionsGroup) {
         this._idx = selected;
         optionsGroup.forEach((option, idx)=> {
@@ -70,6 +84,12 @@ class CustomSelect {
         });
     }
 
+    /**
+     * Change after select and validate or click, on option
+     * 
+     * @param {*} selected selected element
+     * @param {*} optionsGroup list of elements
+     */
     changeSelected(selected, optionsGroup) {
         const list = document.querySelector("#listbox_"+ this._id);
         optionsGroup.forEach((elem) =>{
@@ -81,6 +101,11 @@ class CustomSelect {
         }
     }
 
+    /**
+     * Create Custom select
+     *  
+     * @returns dom object
+     */
     createSelect() {
         const label = document.createElement('label');
         label.innerText = this._name;
@@ -105,13 +130,18 @@ class CustomSelect {
         select.classList.add('custom_select');
         select.append(label ,button, options);
 
-        // lose focus
+        /**
+         * On button loose focus event
+         */
         button.addEventListener('blur', function(){
             if(options.classList.contains('is-open')) {
                 button.style.zIndex = -1;
             }
         });
 
+        /**
+         * On options loose focus event
+         */
         options.addEventListener('blur', function(){
             options.classList.remove('is-open');
             options.style.height = "3em";
@@ -121,7 +151,9 @@ class CustomSelect {
             button.setAttribute("aria-expanded", false);
         });
 
-        // open
+        /**
+         * On button click event
+         */
         button.addEventListener('click', (e) => {
             options.classList.add('is-open');
             options.style.height = "9em";
@@ -130,7 +162,9 @@ class CustomSelect {
             options.focus();
         });
 
-        // select
+        /**
+         * On option keydown event
+         */
         options.addEventListener('keydown', (e) => {
             e.preventDefault();
             const optionsGroup = options.querySelectorAll('li');
@@ -138,6 +172,9 @@ class CustomSelect {
             if (!mouveAction) options.blur();
         })
 
+        /**
+         * On options click event
+         */
         options.addEventListener('click', (e) => {
             const optionsGroup = options.querySelectorAll('li');
             this.changeSelected(e.target, optionsGroup);
@@ -145,5 +182,5 @@ class CustomSelect {
         })
     
         return select;
-    };
+    }
 }

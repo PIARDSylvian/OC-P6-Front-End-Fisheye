@@ -144,7 +144,7 @@ async function displayData(photographer) {
             if(media.dataset.order === carouselIdx) {
                 const link = media.querySelector('a');
                 link.focus();
-            };
+            }
         });
     }
 
@@ -158,7 +158,7 @@ async function displayData(photographer) {
 
     const openModalContact = addModal(addContactForm(photographer.name),'contact_modal', ()=>{}, ()=> onCloseModalContact());
     document.querySelector(".photographer__header .contact_button").addEventListener("click",(e)=> openModalContact(e));
-};
+}
 
 function sortMedia(medias, value) {
     switch (value) {
@@ -312,6 +312,6 @@ async function init() {
     select.querySelector("#sort_by").setAttribute('tabindex', "3");
     document.querySelector(".photographer__section nav").append(select);
     displayData(data);
-};
+}
 
 init();
