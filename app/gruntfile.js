@@ -25,6 +25,8 @@ module.exports = function (grunt) {
                         'scripts/templates/photographerTemplateVideo.js',
                         'scripts/factories/media.js',
                         'scripts/utils/customSelect.js',
+                        'scripts/utils/modal.js',
+                        'scripts/utils/carousel.js',
                         'scripts/pages/photographer.js'
                     ]
                 }

@@ -7,6 +7,12 @@ function getUrlParmeterId (){
     return window.location.hash.substring(1);
 }
 
+/**
+ * Get photographer data by id 
+ * 
+ * @param {Number} id 
+ * @returns {Array} data
+ */
 async function getPhotographer(id) {
     const data = await getPhotographers().then(data => {
         let filteredData = data.photographers.find((photographer) => photographer.id == id);
@@ -17,55 +23,13 @@ async function getPhotographer(id) {
     return data
 }
 
-function addCarouselBase() {
-    const carousel = document.createElement('div');
-    carousel.classList.add('carousel');
-    carousel.dataset.idx = 0;
-
-    const buttonPrev = document.createElement('button');
-    buttonPrev.setAttribute("aria-label","Media precedent")
-    buttonPrev.innerText = "<";
-    const buttonNext = document.createElement('button');
-    buttonNext.setAttribute("aria-label","Media suivant")
-    buttonNext.innerText = ">";
-    const carouselContent = document.createElement('div');
-    carouselContent.classList.add('carousel__content');
-
-    carousel.append(buttonPrev, carouselContent, buttonNext);
-
-    buttonPrev.addEventListener('click', () => {
-        elements = carouselContent.querySelectorAll('.carousel__content>*');
-        const newIndex = +carousel.dataset.idx - 1;
-
-        if(newIndex < 0) {
-            carousel.dataset.idx = (elements.length - 1);
-        } else {
-            carousel.dataset.idx = newIndex;
-        }
-
-        elements.forEach((element) => {
-            if(element.dataset.order === carousel.dataset.idx) element.setAttribute('aria-hidden', false);
-            else element.setAttribute('aria-hidden', true);
-        });
-    });
-    buttonNext.addEventListener('click', () => {
-        elements = carouselContent.querySelectorAll('.carousel__content>*');
-        const newIndex = +carousel.dataset.idx + 1;
-
-        if(newIndex > (elements.length - 1)) {
-            carousel.dataset.idx = 0;
-        } else {
-            carousel.dataset.idx = newIndex;
-        }
-
-        elements.forEach((element) => {
-            if(element.dataset.order === carousel.dataset.idx) element.setAttribute('aria-hidden', false);
-            else element.setAttribute('aria-hidden', true);
-        });
-    });
-    return carousel;
-}
-
+/**
+ * Create structure for contact form
+ * 
+ * @param {string} photographerName
+ * 
+ * @returns {Array} width header, form
+ */
 function addContactForm(photographerName) {
     const header = document.createElement('header');
     const h1 = document.createElement('h1');
@@ -104,62 +68,21 @@ function addContactForm(photographerName) {
     submitButton.value="Envoyer";
 
     form.append(labelFirstName, inputFirstName, labelLastName, inputLastName, labelEmail, inputEmail, labelMessage, inputMessage, submitButton);
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        e.target.querySelectorAll("input:not([type='submit'])").forEach((elem) => console.log(elem.value));
+    form.addEventListener("submit", (formSubmitEvent) => {
+        formSubmitEvent.preventDefault();
+        formSubmitEvent.target.querySelectorAll("input:not([type='submit']), textarea").forEach((elem) => console.log(elem.value));
     });
 
     return [header, form];
 }
 
-async function displayData(photographer) {
-    const header = document.querySelector(".photographer__header");
-    const photographerModel = photographerFactory(photographer, photographer.id);
-    const userPageDOM = photographerModel.getUserPageDOM();
-
-    header.prepend(userPageDOM.info);
-    header.append(userPageDOM.image);
-
-    
-    let likes = 0;
-    photographer.media.forEach((media) => likes += media.likes);
-
-    addTotalLikeAndPrice(likes, userPageDOM.price);
-
-    function onOpenModalCarousel(event) {
-        const carousel = document.querySelector('.modal .carousel');
-        carousel.dataset.idx = event.composedPath().find(element => element.tagName === "FIGURE").dataset.order;
-
-        const carouselContent = carousel.querySelectorAll('.carousel__content>div');
-        carouselContent.forEach((media) => {
-            if(media.dataset.order == carousel.dataset.idx) media.setAttribute('aria-hidden', false);
-            else media.setAttribute('aria-hidden', true);
-        });
-    }
-
-    function onCloseModalCarousel() {
-        const carouselIdx = document.querySelector('#carousel_modal .carousel').dataset.idx;
-        const allMedia = document.querySelectorAll('.photographer__section__media-wrapper figure');
-        allMedia.forEach((media)=>{
-            if(media.dataset.order === carouselIdx) {
-                const link = media.querySelector('a');
-                link.focus();
-            }
-        });
-    }
-
-    const openModalCarousel = addModal(addCarouselBase(), 'carousel_modal', (event)=>{onOpenModalCarousel(event)}, (event)=>{onCloseModalCarousel()});
-    addMedia(photographer.media, photographer.name, openModalCarousel);
-
-    function onCloseModalContact() {
-        document.querySelector("#contact_modal form").reset();
-        document.querySelector(".photographer__header .contact_button").focus();
-    }
-
-    const openModalContact = addModal(addContactForm(photographer.name),'contact_modal', ()=>{}, ()=> onCloseModalContact());
-    document.querySelector(".photographer__header .contact_button").addEventListener("click",(e)=> openModalContact(e));
-}
-
+/**
+ * Sort media by value
+ * @param {Array} medias items to sort 
+ * @param {Number} value to determine sort
+ * 
+ * @returns {Array} sorted medias 
+ */
 function sortMedia(medias, value) {
     switch (value) {
         case '2':
@@ -181,6 +104,13 @@ function sortMedia(medias, value) {
     return medias;
 }
 
+/**
+ * Add media on page & events
+ * 
+ * @param {Array} medias list of media 
+ * @param {String} name of photographe 
+ * @param {Function} openModal to call open modal (for carousel)
+ */
 function addMedia(medias, name, openModal) {
     const wrapper = document.querySelector(".photographer__section__media-wrapper");
     medias = sortMedia(medias);
@@ -236,6 +166,12 @@ function addMedia(medias, name, openModal) {
     });
 }
 
+/**
+ * Add likes and price on page
+ * 
+ * @param {Number} likes of all like 
+ * @param {String} price per day
+ */
 function addTotalLikeAndPrice(likes, price) {
     const div = document.createElement('div');
     div.classList.add('photographer__like-and-price');
@@ -256,54 +192,80 @@ function addTotalLikeAndPrice(likes, price) {
     document.querySelector("main").append(div);
 }
 
-function addModal(content, id,callBackOpen = ()=>{}, callBackClose = ()=>{}) {
-    const main = document.querySelector('main');
-    const modal = document.createElement('div');
-    modal.setAttribute('role', 'dialog');
-    modal.setAttribute('aria-hidden', true);
-    modal.setAttribute('id', id);
-    modal.classList.add('modal');
+async function displayData(photographer) {
+    /**
+     * Add info HEADER
+     */
+    const header = document.querySelector(".photographer__header");
+    const photographerModel = photographerFactory(photographer, photographer.id);
+    const userPageDOM = photographerModel.getUserPageDOM();
+    header.prepend(userPageDOM.info);
+    header.append(userPageDOM.image);
 
-    const closeBtn = document.createElement('input');
-    closeBtn.setAttribute('type', 'image');
-    closeBtn.setAttribute('src', 'assets/icons/close.svg');
-    closeBtn.setAttribute('alt', 'close');
-    
-    modal.appendChild(closeBtn);
+    /**
+     * Add Likes & ¨Price bottom right page
+     */
+    let likes = 0;
+    photographer.media.forEach((media) => likes += media.likes);
+    addTotalLikeAndPrice(likes, userPageDOM.price);
 
-    if(!content.length) modal.appendChild(content);
-    else content.forEach((elem)=>modal.appendChild(elem));
+    /**
+     * Event on open carousel
+     * @param {Event} event
+     */
+    function onOpenModalCarousel(event) {
+        const carousel = document.querySelector('.modal .carousel');
+        carousel.dataset.idx = event.composedPath().find(element => element.tagName === "FIGURE").dataset.order;
 
-    document.addEventListener("click", () => {
-        if(document.querySelector(".modal.open[aria-hidden='false']")) closeBtn.click();
-    });
-      
-    modal.addEventListener("click", (event) => event.stopPropagation());
-
-    closeBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        callBackClose(e);
-        main.setAttribute('aria-hidden', false);
-        modal.setAttribute('aria-hidden', true);
-        modal.classList.remove('open');
-        document.body.style.overflow = "auto";
-    });
-
-    const openModal = (e) => {
-        e.preventDefault();
-        if(document.querySelector(".modal.open[aria-hidden='false']")) return;
-        callBackOpen(e);
-        document.body.style.overflow = "hidden";
-        main.setAttribute('aria-hidden', true);
-        modal.setAttribute('aria-hidden', false);
-        modal.style.top = `calc(50% + ${window.scrollY}px)`;
-        setTimeout(() => modal.classList.add('open'), 10);
-        closeBtn.focus();
+        const carouselContent = carousel.querySelectorAll('.carousel__content>div');
+        carouselContent.forEach((media) => {
+            if(media.dataset.order == carousel.dataset.idx) media.setAttribute('aria-hidden', false);
+            else media.setAttribute('aria-hidden', true);
+        });
     }
 
-    document.body.appendChild(modal);
+    /**
+     * Event on close carousel
+     * @param {Event} event
+     */
+    function onCloseModalCarousel() {
+        const carouselIdx = document.querySelector('#carousel_modal .carousel').dataset.idx;
+        const allMedia = document.querySelectorAll('.photographer__section__media-wrapper figure');
+        allMedia.forEach((media)=>{
+            if(media.dataset.order === carouselIdx) {
+                const link = media.querySelector('a');
+                link.focus();
+            }
+        });
+    }
 
-    return openModal;
+    /**
+     * Add modal carousel and get open modal fonction
+     */
+    const openModalCarousel = addModal(addCarouselBase(), 'carousel_modal', (event)=>{onOpenModalCarousel(event)}, (event)=>{onCloseModalCarousel()});
+
+    /**
+     * Add all medai on page
+     */
+    addMedia(photographer.media, photographer.name, openModalCarousel);
+
+    /**
+     * Event on close contact
+     */
+    function onCloseModalContact() {
+        document.querySelector("#contact_modal form").reset();
+        document.querySelector(".photographer__header .contact_button").focus();
+    }
+
+    /**
+     * Add modal contact and get open modal fonction
+     */
+    const openModalContact = addModal(addContactForm(photographer.name),'contact_modal', ()=>{}, ()=> onCloseModalContact());
+
+    /**
+     * Add listner for contact modal 
+     */
+    document.querySelector(".photographer__header .contact_button").addEventListener("click",(e)=> openModalContact(e));
 }
 
 async function init() {
