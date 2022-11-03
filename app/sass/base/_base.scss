@@ -4,7 +4,7 @@
 * {
     box-sizing: border-box;
     font-family: "DM Sans", sans-serif;
-    &:focus, &:focus-visible, button:focus, button:focus-visible, [type="button"]:focus-visible {
+    &:focus-visible, button:focus-visible, [type="button"]:focus-visible {
         outline: solid .2em $font-primary;
 
         &[alt="like"] {

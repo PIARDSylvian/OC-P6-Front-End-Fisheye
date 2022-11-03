@@ -51,9 +51,23 @@ class CustomSelect { // eslint-disable-line
                     this.changeSelect(this._idx + 1, optionsGroup)
                 }
                 return true
+            case 'Tab':
+                if (this._idx == (optionsGroup.length - 1)) {
+                    return false
+                } else {
+                    this.changeSelect(this._idx + 1, optionsGroup)
+                }
+                return true
             case 'ArrowUp':
                 if (this._idx == 0) {
                     this.changeSelect((optionsGroup.length - 1), optionsGroup)
+                } else {
+                    this.changeSelect(this._idx - 1, optionsGroup)
+                }
+                return true
+            case 'Shift':
+                if (this._idx == 0) {
+                    return false
                 } else {
                     this.changeSelect(this._idx - 1, optionsGroup)
                 }

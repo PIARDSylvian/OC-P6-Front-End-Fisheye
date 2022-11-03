@@ -65,7 +65,7 @@
 }
 
 .modal, .carousel {
-    *:focus, *:focus-visible, * button:focus-visible, * [type=button]:focus-visible {
+    *:focus-visible, * button:focus-visible, * [type=button]:focus-visible {
         outline: solid 3px $font-ternary;
     }
 }
