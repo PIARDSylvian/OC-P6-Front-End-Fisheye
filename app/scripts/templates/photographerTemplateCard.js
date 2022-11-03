@@ -20,7 +20,7 @@ class PhotographerTemplateCard extends AbstractTemplatePhotographer { // eslint-
         title.classList.add('photographer__title');
 
         const link = document.createElement('a');
-        link.setAttribute("href", `/photographer#${this._id}`);
+        link.setAttribute("href", `photographer#${this._id}`);
 
         link.appendChild(img);
         link.appendChild(title);
