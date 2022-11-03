@@ -3,7 +3,7 @@
  * 
  * @returns {object} dom element
  */
- function addCarouselBase() {
+ function addCarouselBase() { // eslint-disable-line
     const carousel = document.createElement('div');
     carousel.classList.add('carousel');
     carousel.dataset.idx = 0;
@@ -20,7 +20,7 @@
     carousel.append(buttonPrev, carouselContent, buttonNext);
 
     buttonPrev.addEventListener('click', () => {
-        elements = carouselContent.querySelectorAll('.carousel__content>*');
+        const elements = carouselContent.querySelectorAll('.carousel__content>*');
         const newIndex = +carousel.dataset.idx - 1;
 
         if(newIndex < 0) {
@@ -35,7 +35,7 @@
         });
     });
     buttonNext.addEventListener('click', () => {
-        elements = carouselContent.querySelectorAll('.carousel__content>*');
+        const elements = carouselContent.querySelectorAll('.carousel__content>*');
         const newIndex = +carousel.dataset.idx + 1;
 
         if(newIndex > (elements.length - 1)) {

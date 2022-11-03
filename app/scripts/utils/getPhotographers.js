@@ -3,6 +3,6 @@
  * 
  * @returns {array} 
  */
-async function getPhotographers() {
+async function getPhotographers() { // eslint-disable-line
     return await fetch('./data/photographers.json').then((response) => response.json());
 }

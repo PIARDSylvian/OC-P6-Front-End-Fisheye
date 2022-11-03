@@ -1,4 +1,4 @@
-class PhotographerTemplateCard extends AbstractTemplatePhotographer {
+class PhotographerTemplateCard extends AbstractTemplatePhotographer { // eslint-disable-line
     constructor(data) {
         super(data)
         this._id = data._id;

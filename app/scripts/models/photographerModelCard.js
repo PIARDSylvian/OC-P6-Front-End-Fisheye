@@ -1,4 +1,4 @@
-class PhotographerModelCard extends AbstractModelPhotographer {
+class PhotographerModelCard extends AbstractModelPhotographer { // eslint-disable-line
     constructor(data) {
         super(data)
         this._picture = `assets/photographers/Photographers ID Photos/${data.portrait}`;
@@ -10,6 +10,6 @@ class PhotographerModelCard extends AbstractModelPhotographer {
     }
 
     getUserCardDOM() {
-        return (new PhotographerTemplateCard(this)).getRender();
+        return (new PhotographerTemplateCard(this)).getRender(); // eslint-disable-line
     }
 }

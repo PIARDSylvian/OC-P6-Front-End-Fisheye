@@ -2,10 +2,10 @@
  * Abstract Class for photographer must be extend
  * add all common values
  */
-class AbstractTemplatePhotographer {
+class AbstractTemplatePhotographer { // eslint-disable-line
     constructor(data) {
-        if (this.constructor === AbstractModelPhotographer) {
-            throw new TypeError('Abstract class "AbstractPhotographer" cannot be instantiated directly');
+        if (this.constructor === AbstractTemplatePhotographer) {
+            throw new TypeError('Abstract class "AbstractTemplatePhotographer" cannot be instantiated directly');
         }
         this._name = data._name;
         this._picture = data._picture;

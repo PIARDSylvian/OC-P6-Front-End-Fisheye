@@ -1,7 +1,7 @@
 /**
  * Ceate custom select input
  */
-class CustomSelect {
+class CustomSelect { // eslint-disable-line
     constructor(id, name, data) {
         this._data = data;
         this._id = id;

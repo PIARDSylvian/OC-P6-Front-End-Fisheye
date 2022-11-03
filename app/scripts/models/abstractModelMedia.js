@@ -2,7 +2,7 @@
  * Abstract Class for Media must be extend
  * add all common values
  */
-class AbstractModelMedia {
+class AbstractModelMedia { // eslint-disable-line
     constructor(data, photographerName) {
         if (this.constructor === AbstractModelMedia) {
             throw new TypeError('Abstract class "AbstractModelMedia" cannot be instantiated directly');

@@ -14,7 +14,7 @@ function getUrlParmeterId (){
  * @returns {Array} data
  */
 async function getPhotographer(id) {
-    const data = await getPhotographers().then(data => {
+    const data = await getPhotographers().then(data => { // eslint-disable-line
         let filteredData = data.photographers.find((photographer) => photographer.id == id);
         filteredData.media = data.media.filter((media) => media.photographerId == id);
         return filteredData;
@@ -116,7 +116,7 @@ function addMedia(medias, name, openModal) {
     medias = sortMedia(medias);
     wrapper.dataset.sort = "0";
     medias.forEach((media, idx) => {
-        const result = mediaFactory(media, name);
+        const result = mediaFactory(media, name); // eslint-disable-line
         const element = result.getMediaCardDOM();
         element.dataset.idx = idx;
         element.dataset.order = idx;
@@ -137,7 +137,7 @@ function addMedia(medias, name, openModal) {
         document.querySelector('.carousel__content').append(mediaWrapper);
         const likeButton = element.querySelector('.like_count input');
         likeButton.addEventListener('click',()=>{
-            likeCount = element.querySelector('.like_count p')
+            const likeCount = element.querySelector('.like_count p')
             let likes = +likeCount.innerText;
             likes++;
             likeCount.innerText = likes;
@@ -151,7 +151,7 @@ function addMedia(medias, name, openModal) {
     select.addEventListener('blur', function(){
         const value = select.querySelector('li[aria-selected="true"]').dataset.value;
         const sort = sortMedia(medias, value);
-        count = 5;
+        let count = 5;
         sort.forEach((media, idx) => {
             document.querySelector(`.photographer__section__media-wrapper figure[data-id="${media.id}"] a`).setAttribute("tabindex", count);
             count++
@@ -197,7 +197,7 @@ async function displayData(photographer) {
      * Add info HEADER
      */
     const header = document.querySelector(".photographer__header");
-    const photographerModel = photographerFactory(photographer, photographer.id);
+    const photographerModel = photographerFactory(photographer, photographer.id); // eslint-disable-line
     const userPageDOM = photographerModel.getUserPageDOM();
     header.prepend(userPageDOM.info);
     header.append(userPageDOM.image);
@@ -242,7 +242,7 @@ async function displayData(photographer) {
     /**
      * Add modal carousel and get open modal fonction
      */
-    const openModalCarousel = addModal(addCarouselBase(), 'carousel_modal', (event)=>{onOpenModalCarousel(event)}, (event)=>{onCloseModalCarousel()});
+    const openModalCarousel = addModal(addCarouselBase(), 'carousel_modal', (event)=>{onOpenModalCarousel(event)}, (event)=>{onCloseModalCarousel()}); // eslint-disable-line
 
     /**
      * Add all medai on page
@@ -260,7 +260,7 @@ async function displayData(photographer) {
     /**
      * Add modal contact and get open modal fonction
      */
-    const openModalContact = addModal(addContactForm(photographer.name),'contact_modal', ()=>{}, ()=> onCloseModalContact());
+    const openModalContact = addModal(addContactForm(photographer.name),'contact_modal', ()=>{}, ()=> onCloseModalContact()); // eslint-disable-line
 
     /**
      * Add listner for contact modal 
@@ -270,7 +270,7 @@ async function displayData(photographer) {
 
 async function init() {
     const data = await getPhotographer(getUrlParmeterId());
-    const select = new CustomSelect('sort_by', 'Trier par', ['Popularité', 'Date', 'Titre']).createSelect();
+    const select = new CustomSelect('sort_by', 'Trier par', ['Popularité', 'Date', 'Titre']).createSelect(); // eslint-disable-line
     select.querySelector("#sort_by").setAttribute('tabindex', "3");
     document.querySelector(".photographer__section nav").append(select);
     displayData(data);

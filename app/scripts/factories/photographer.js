@@ -6,11 +6,11 @@
  * 
  * @returns {Object} for call render
  */
-function photographerFactory(data, id) {
+function photographerFactory(data, id) { // eslint-disable-line
     if(!id) {
-        return new PhotographerModelCard(data);
+        return new PhotographerModelCard(data); // eslint-disable-line
     } else if(Number.isInteger(id)) {
-        return new PhotographerModelPage(data);
+        return new PhotographerModelPage(data); // eslint-disable-line
     } else {
         throw 'Unknown id format'
     }

@@ -7,7 +7,7 @@
  * @param {Function} callBackClose optional, fonction to call on close modal
  * @returns {Function} to open modal
  */
- function addModal(content, id,callBackOpen = ()=>{}, callBackClose = ()=>{}) {
+ function addModal(content, id,callBackOpen = ()=>{}, callBackClose = ()=>{}) { // eslint-disable-line
     const main = document.querySelector('main');
     const modal = document.createElement('div');
     modal.setAttribute('role', 'dialog');

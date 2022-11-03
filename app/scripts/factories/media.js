@@ -6,11 +6,11 @@
  * 
  * @returns {object} mediaObject for call getMediaCardDOM();
  */
-function mediaFactory(media, photographerName) {
+function mediaFactory(media, photographerName) { // eslint-disable-line
     if(media.image) {
-        return new PhotographerImageCard(media, photographerName);
+        return new PhotographerImageCard(media, photographerName); // eslint-disable-line
     } else if(media.video) {
-        return new PhotographerVideoCard(media, photographerName);
+        return new PhotographerVideoCard(media, photographerName); // eslint-disable-line
     } else {
         throw 'Unknown media format'
     }

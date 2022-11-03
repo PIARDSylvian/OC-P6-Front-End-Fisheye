@@ -1,4 +1,4 @@
-class PhotographerTemplateImage extends AbstractTemplateMedia {
+class PhotographerTemplateImage extends AbstractTemplateMedia { // eslint-disable-line
     constructor(data) {
         super(data)
         this._image = data._image;

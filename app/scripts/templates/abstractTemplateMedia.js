@@ -2,7 +2,7 @@
  * Abstract Class for Media must be extend
  * add all common values
  */
-class AbstractTemplateMedia {
+class AbstractTemplateMedia { // eslint-disable-line
     constructor(data) {
         if (this.constructor === AbstractTemplateMedia) {
             throw new TypeError('Abstract class "AbstractTemplateMedia" cannot be instantiated directly');
