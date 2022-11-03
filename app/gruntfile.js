@@ -44,9 +44,14 @@ module.exports = function (grunt) {
                 ext: '.min.css'   // replace .js to .min.js
             }
         },
+        copy: {
+            main: {
+                files: [{src : 'node_modules/normalize.css/normalize.css', dest: 'public/normalize.css'}]
+            },
+        },
         watch: {
             js:  { files: 'scripts/**/*.js', tasks: [ 'uglify' ] },
-            css:  { files: ['sass/main.scss', 'sass/**/*.scss'], tasks: [ 'sass' ] }
+            css:  { files: ['sass/main.scss', 'sass/**/*.scss'], tasks: [ 'copy','sass' ] }
         },
     });
 
@@ -54,8 +59,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
-        // register at least this one task
-        grunt.registerTask('default', ['uglify', 'sass']);
-
+    // register at least this one task
+    grunt.registerTask('default', ['uglify', 'copy', 'sass']);
 };
