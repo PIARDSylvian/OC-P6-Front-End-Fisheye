@@ -1,9 +1,16 @@
-@import "../../node_modules/normalize.css/normalize.css";
+@import "/node_modules/normalize.css/normalize.css";
 @import url('https://fonts.googleapis.com/css?family=DM+Sans&display=swap');
 
 * {
     box-sizing: border-box;
     font-family: "DM Sans", sans-serif;
+    &:focus-visible, button:focus-visible, [type="button"]:focus-visible {
+        outline: solid .2em $font-primary;
+
+        &[alt="like"] {
+            outline-color: adjust-hue($color: $font-primary, $degrees: -40);
+        }
+    }
 }
 
 body {

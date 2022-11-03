@@ -1,4 +1,4 @@
-.photographer_section {
+.photographer_section, .photographer__header {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 70px;
@@ -14,12 +14,13 @@
         &>a {
             text-decoration: none;
             text-align: center;
+            position: relative;
         }
 
         &__picture {
-            height: 250px;
-            width: 250px;
             border-radius: 100%;
+            width: 200px;
+            height: 200px;
             object-fit: cover;
         }
 

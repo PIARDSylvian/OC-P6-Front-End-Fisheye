@@ -1,14 +1,251 @@
 #contact_modal {
-    display: none;
+    width: 50%;
 }
 
-.photograph-header {
-    background-color: #FAFAFA;
-    height: 300px;
-    margin: 0 100px;
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 90%;
+    border-radius: 5px;
+    background-color: $background-secondary;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 35px;
+    margin: auto;
+
+    &[aria-hidden="false"] {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    &[aria-hidden="true"] {
+        visibility: hidden;
+        opacity: 0;
+        z-index: -9999;
+    }
+
+    input[alt="close"] {
+        position: absolute;
+        cursor: pointer;
+        top: 1em;
+        right: 1em;
+        height: 2em;
+    }
+
+    header {
+        margin-bottom: 1em;
+        padding: 0;
+        width: 100%;
+        height: auto;
+        margin-top: -1.5em;
+
+        h1 {
+            margin: 0;
+            color: black;
+            font-size: 3em;
+            font-weight: normal;
+        }
+    }
+
+    form input {
+        &:not(:last-child) {
+            margin-bottom: 1em;
+        }
+
+        &[type="submit"] {
+            margin-top: 1em;
+            width: 8em;
+        }
+    }
 }
 
-.contact_button {
+.modal, .carousel {
+    *:focus-visible, * button:focus-visible, * [type=button]:focus-visible {
+        outline: solid 3px $font-ternary;
+    }
+}
+
+.carousel {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 80vh;
+
+    &>button {
+        background: none;
+        border: none;
+        font-size: 5em;
+        height: 1.5em;
+        color: $font-secondary;
+        cursor: pointer;
+    }
+
+    .carousel__content {
+        width: 100%;
+        height: 80vh;
+        position: relative;
+
+        &>div {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 80vh;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        h3 {
+            color: $font-secondary;
+            height: 1em;
+            margin: 1em 0 0 0;
+        }
+
+        div[aria-hidden="false"] {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        img, video {
+            max-width: 100%;
+            max-height: calc(80vh - 2em);
+            object-fit: contain;
+        }
+    
+        div[aria-hidden="true"] {
+            visibility: hidden;
+            opacity: 0;
+        }
+    }
+}
+
+.photographer {
+    &__header {
+        background-color: $background-ternary;
+        margin: 0 100px;
+        display: flex;
+        height: auto;
+        padding: 60px 50px;
+
+        .photographer {
+            &__title {
+                text-align: left;
+                margin: 0;
+                font-size: 50px;
+            }
+    
+            &__tagline {
+                font-weight: 100;
+                color: $font-ternary;
+            }
+    
+            &__location, &__tagline , &__price {
+                margin: 1em 0;
+            }
+        }
+    }
+
+    &__section {
+        margin: 0 100px;
+
+        &__media-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 70px;
+            margin-top: 50px;
+
+            @include tab {
+                grid-template-columns: 1fr 1fr;
+            }
+        
+            @include mobile {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        figure {
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            figcaption {
+                font-weight: bold;
+                color: $font-secondary;
+                margin-top: 1em;
+            }
+
+            a, img, video {
+                width: 100%;
+                object-fit: cover;
+                height: 300px;
+                cursor: pointer;
+            }
+        }
+
+        .like_count {
+            font-weight: bold;
+            height: 1.5em;
+            width: auto;
+            color: $font-secondary;
+            display: flex;
+            align-items: center;
+            margin-top: 1em;
+
+            input {
+                height: 1em;
+                width: auto;
+                margin-left: .5em;
+                filter: hue-rotate(49deg);
+            }
+        }
+
+        nav {
+            display: flex;
+            margin-top: .5em;
+            outline: none;
+        }
+    }
+
+    &__like-and-price {
+        width: 15em;
+        display: flex;
+        justify-content: center;
+        font-weight: bold;
+        position: sticky;
+        margin-left: calc(100% - 15em);
+        bottom: 0;
+        padding: 1em;
+        background-color: $background-secondary;
+        border-radius: .5em .5em 0 0;
+
+        p {
+            margin: 0;
+        }
+
+        img {
+            height: 1em;
+            margin-left: .5em;
+            filter: brightness(0);
+        }
+
+        div {
+            display: flex;
+        }
+
+        .photographer__price {
+            margin-left: 3em;
+        }
+    }
+}
+
+.contact_button, input[type="submit"] {
     font-size: 20px;
     font-weight: bold;
     color: white;
@@ -21,33 +258,6 @@
     cursor: pointer;
 }
 
-.modal {
-    border-radius: 5px;
-    background-color: #DB8876;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 35px;
-    margin: auto;
-
-    header {
-        justify-content: space-between;
-        width: 100%;
-
-        img {
-            cursor: pointer;
-        }
-
-        h2 {
-            font-size: 64px;
-            font-weight: normal;
-            text-align: center;
-        }
-    }
-}
-
 form {
     display: flex;
     width: 100%;
@@ -55,7 +265,7 @@ form {
     align-items: flex-start;
 
     label {
-        color: #312E2E;
+        color: $font-ternary;
         font-size: 36px;
     }
 
@@ -67,10 +277,14 @@ form {
         margin-bottom: 26px;
     }
 
-    input {
+    input, textarea {
         width: 100%;
-        height: 68px;
+        height: 3em;
         border: none;
         border-radius: 5px;
+    }
+
+    textarea {
+        height: 9em;
     }
 }
