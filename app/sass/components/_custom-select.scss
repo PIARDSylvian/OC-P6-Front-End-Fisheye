@@ -2,10 +2,6 @@
     display: flex;
     position: relative;
 
-    * {
-        outline: $font-ternary .2em solid;
-    }
-
     label {
         margin-right: 1em;
         font-weight: bold;
