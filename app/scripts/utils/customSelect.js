@@ -184,7 +184,7 @@ class CustomSelect { // eslint-disable-line
             e.preventDefault();
             const optionsGroup = options.querySelectorAll('a');
             const mouveAction = this.keydown(e.key, optionsGroup);
-            if (!mouveAction) options.blur();
+            // if (!mouveAction) options.blur();
         })
 
         /**
