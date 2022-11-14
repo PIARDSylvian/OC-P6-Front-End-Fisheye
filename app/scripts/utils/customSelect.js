@@ -193,7 +193,7 @@ class CustomSelect { // eslint-disable-line
         options.addEventListener('click', (e) => {
             const optionsGroup = options.querySelectorAll('a');
             this.changeSelected(e.target, optionsGroup);
-            options.blur();
+            button.focus();
         })
     
         return select;
