@@ -76,9 +76,9 @@ class CustomSelect { // eslint-disable-line
             case 'Enter':
             case ' ':
                 this.changeSelected(optionsGroup[this._idx], optionsGroup)
-                return false
+                return true
             default:
-                return false
+                return true
         }
     }
 
