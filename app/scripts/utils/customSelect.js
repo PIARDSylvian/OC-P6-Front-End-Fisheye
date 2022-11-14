@@ -15,19 +15,20 @@ class CustomSelect { // eslint-disable-line
      * @returns dom object.
      */
     createOption() {
-        const listbox = document.createElement('ul');
+        const listbox = document.createElement('div');
         listbox.setAttribute("id", "listbox_" + this._id);
         listbox.setAttribute("role", "listbox");
         listbox.setAttribute("aria-labelledby", "label_" + this._id);
         listbox.setAttribute("tabindex", -1);
 
         this._data.map((name, idx) => {
-            const option = document.createElement('li');
+            const option = document.createElement('a');
             option.setAttribute("id", this._id + "_" + idx);
             option.setAttribute("role", "option");
             option.setAttribute('aria-selected', `${idx === 0}`);
             option.dataset.value = idx;
             option.innerText = name;
+            option.setAttribute("aria-label", "trier par" + name);
 
             if (idx === 0) option.classList.add('select');
 
@@ -161,7 +162,7 @@ class CustomSelect { // eslint-disable-line
             options.style.height = "3em";
             button.style.zIndex = 2;
             this._idx = 0;
-            button.innerText = options.querySelector('li[aria-selected="true"]').innerText;
+            button.innerText = options.querySelector('a[aria-selected="true"]').innerText;
             button.setAttribute("aria-expanded", false);
         });
 
@@ -172,7 +173,7 @@ class CustomSelect { // eslint-disable-line
             options.classList.add('is-open');
             options.style.height = "9em";
             button.setAttribute("aria-expanded", true);
-            if(e.pointerId == 1 ) options.querySelector('li').classList.remove('select');
+            if(e.pointerId == 1 ) options.querySelector('a').classList.remove('select');
             options.focus();
         });
 
@@ -181,7 +182,7 @@ class CustomSelect { // eslint-disable-line
          */
         options.addEventListener('keydown', (e) => {
             e.preventDefault();
-            const optionsGroup = options.querySelectorAll('li');
+            const optionsGroup = options.querySelectorAll('a');
             const mouveAction = this.keydown(e.key, optionsGroup);
             if (!mouveAction) options.blur();
         })
@@ -190,7 +191,7 @@ class CustomSelect { // eslint-disable-line
          * On options click event
          */
         options.addEventListener('click', (e) => {
-            const optionsGroup = options.querySelectorAll('li');
+            const optionsGroup = options.querySelectorAll('a');
             this.changeSelected(e.target, optionsGroup);
             options.blur();
         })

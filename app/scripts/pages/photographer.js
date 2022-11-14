@@ -149,7 +149,7 @@ function addMedia(medias, name, openModal) {
 
     const select = document.querySelector("#listbox_sort_by");
     select.addEventListener('blur', function(){
-        const value = select.querySelector('li[aria-selected="true"]').dataset.value;
+        const value = select.querySelector('a[aria-selected="true"]').dataset.value;
         const sort = sortMedia(medias, value);
         let count = 5;
         sort.forEach((media, idx) => {
