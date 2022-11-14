@@ -19,6 +19,14 @@
 
     carousel.append(buttonPrev, carouselContent, buttonNext);
 
+    carousel.addEventListener('keydown', function(e){
+        if (e.key === 'ArrowRight') {
+            buttonNext.click();
+        } else if (e.key === 'ArrowLeft'){
+            buttonPrev.click();
+        }
+    })
+
     buttonPrev.addEventListener('click', () => {
         const elements = carouselContent.querySelectorAll('.carousel__content>*');
         const newIndex = +carousel.dataset.idx - 1;

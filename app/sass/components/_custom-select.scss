@@ -29,7 +29,7 @@
         }
     }
 
-    button, ul {
+    button, div {
         background-color: $font-secondary;
         color: $background-ternary;
         border-radius: .5em;
@@ -38,7 +38,7 @@
         width: 8em;
     }
 
-    ul {
+    div {
         margin: 0;
         padding: 0;
         height: 3em;
@@ -49,18 +49,20 @@
         position: absolute;
         right: 0;
         cursor: pointer;
+        display: flex;
+        flex-direction: column;
         
         &.is-open {
             transition: all .2s ease-in-out;
             z-index: 2;
 
-            li:first-child::after {
+            a:first-child::after {
                 transform: rotate(-90deg);
             }
         }
     }
 
-    li {
+    a {
         list-style: none;
         height: 3em;
         border: transparent 1px solid;

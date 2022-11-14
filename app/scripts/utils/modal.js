@@ -31,6 +31,8 @@
       
     modal.addEventListener("click", (event) => event.stopPropagation());
 
+    modal.addEventListener('keydown', (e) => {if(e.key === 'Escape') closeBtn.click()});
+
     closeBtn.addEventListener('click', (e) => {
         e.preventDefault();
         callBackClose(e);
