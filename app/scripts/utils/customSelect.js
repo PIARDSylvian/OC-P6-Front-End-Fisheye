@@ -76,7 +76,7 @@ class CustomSelect { // eslint-disable-line
             case 'Enter':
             case ' ':
                 this.changeSelected(optionsGroup[this._idx], optionsGroup)
-                return true
+                return false
             default:
                 return true
         }
@@ -184,7 +184,7 @@ class CustomSelect { // eslint-disable-line
             e.preventDefault();
             const optionsGroup = options.querySelectorAll('a');
             const mouveAction = this.keydown(e.key, optionsGroup);
-            // if (!mouveAction) options.blur();
+            if (!mouveAction) options.blur();
         })
 
         /**
@@ -193,7 +193,7 @@ class CustomSelect { // eslint-disable-line
         options.addEventListener('click', (e) => {
             const optionsGroup = options.querySelectorAll('a');
             this.changeSelected(e.target, optionsGroup);
-            button.blur();
+            options.blur();
         })
     
         return select;
