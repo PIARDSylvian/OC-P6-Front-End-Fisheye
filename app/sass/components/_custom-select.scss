@@ -17,15 +17,19 @@
         z-index: 2;
 
         &::before {
-            content:">";
-            transform: rotate(90deg);
+            content:"";
+            border-left: solid .1em white;
+            border-top: solid .1em white;
+            width: .5em;
+            height: .5em;
+            transition: transform .5s ease-in;
+            transform: translate(0, 120%) rotate(45deg);
             font-size: 1.5em;
             font-weight: bold;
-            position: absolute;
-            right: .5em;
             line-height: 1.5em;
             top: .2em;
-            transition: transform .3s ease-in;
+            position: absolute;
+            right: .4em;
         }
     }
 
@@ -57,7 +61,7 @@
             z-index: 2;
 
             a:first-child::after {
-                transform: rotate(-90deg);
+                transform: translate(0, 70%) rotate(225deg);
             }
         }
     }
@@ -85,9 +89,13 @@
 
         
         &:first-child::after {
-            content:">";
+            content:"";
+            border-left: solid .1em white;
+            border-top: solid .1em white;
+            width: .5em;
+            height: .5em;
             transition: transform .5s ease-in;
-            transform: rotate(90deg);
+            transform: translate(0, 120%) rotate(45deg);
             font-size: 1.5em;
             font-weight: bold;
             line-height: 1.5em;
